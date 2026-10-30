@@ -1,0 +1,2056 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+    <title>
+        {% block title %}Shree Vagheswari Jewellers Jewels{% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         PREMIUM FONTS
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    <!-- =====================================================
+         NAVBAR + HOME BRAND SECTIONS CSS
+    ====================================================== -->
+
+    <style>
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
+
+        .luxury-nav {
+            min-height: 110px;
+            padding: 18px 0;
+            background: #022e16;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+
+        .luxury-nav .container {
+            display: flex;
+            align-items: center;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ====================================================== */
+
+        .luxury-nav .brand {
+            min-width: 220px;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 38px;
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+
+        .luxury-nav .brand span {
+            display: block;
+            margin-top: 8px;
+            color: #ffffff;
+            font-family: "Poppins", sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 5px;
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .luxury-nav .navbar-collapse {
+            display: flex;
+            align-items: center;
+        }
+
+
+        .luxury-nav .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+
+        .luxury-nav .nav-item {
+            display: flex;
+            align-items: center;
+        }
+
+        
+
+
+        /* =====================================================
+           ALL NAV LINKS
+        ====================================================== */
+
+        .luxury-nav .nav-link {
+            display: flex;
+            align-items: center;
+            color: #ffffff !important;
+            font-family: "Poppins", sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            padding: 10px 11px !important;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+
+        .luxury-nav .nav-link:hover {
+            color: #ffffff !important;
+            opacity: 0.75;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           NAVBAR ICONS
+        ====================================================== */
+
+        .luxury-nav .nav-link i,
+        .luxury-nav .register-btn i,
+        .luxury-nav .logout-btn i {
+            color: #ffffff !important;
+            font-size: 18px;
+            width: 21px;
+            min-width: 21px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 7px;
+        }
+
+
+        /* =====================================================
+           SHOP
+        ====================================================== */
+
+        .luxury-nav .shop-link,
+        .luxury-nav .shop-link i {
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           FIND JEWELLERY
+        ====================================================== */
+
+        .luxury-nav .find-link,
+        .luxury-nav .find-link i {
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           BUILD SET
+        ====================================================== */
+
+        .luxury-nav .build-link,
+        .luxury-nav .build-link i {
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           CART
+        ====================================================== */
+
+        .luxury-nav .cart-link,
+        .luxury-nav .cart-link i {
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           DASHBOARD
+        ====================================================== */
+
+        .luxury-nav .dashboard-link,
+        .luxury-nav .dashboard-link i {
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           LOGIN
+        ====================================================== */
+
+        .luxury-nav .login-link,
+        .luxury-nav .login-link i {
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           USER DROPDOWN
+        ====================================================== */
+
+        .luxury-nav .user-dropdown {
+            position: relative;
+        }
+
+
+        .luxury-nav .user-dropdown-toggle {
+            display: flex;
+            align-items: center;
+
+            border: none !important;
+            background: transparent !important;
+
+            color: #ffffff !important;
+
+            font-family: "Poppins", sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+
+            padding: 10px 11px;
+
+            white-space: nowrap;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .luxury-nav .user-dropdown-toggle:hover {
+            color: #ffffff !important;
+            opacity: 0.75;
+        }
+
+
+        /* USER ICON */
+
+        .luxury-nav .user-dropdown-toggle > i:first-child {
+            font-size: 18px;
+            width: 21px;
+            min-width: 21px;
+            margin-right: 7px;
+        }
+
+
+        /* DOWN ARROW */
+
+        .luxury-nav .dropdown-arrow {
+            width: auto !important;
+            min-width: auto !important;
+
+            font-size: 11px !important;
+
+            margin-left: 8px !important;
+            margin-right: 0 !important;
+
+            transition: transform 0.3s ease;
+        }
+
+
+        .luxury-nav .user-dropdown.show .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+
+        /* =====================================================
+           USER DROPDOWN MENU
+        ====================================================== */
+
+        .luxury-nav .user-menu {
+
+            min-width: 250px;
+
+            margin-top: 14px;
+
+            padding: 10px;
+
+            background: linear-gradient(
+                145deg,
+                #092516,
+                #022e16
+            );
+
+            border: 1px solid rgba(10, 73, 33, 0.16);
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+
+        /* DROPDOWN ARROW */
+
+        .luxury-nav .user-menu::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: -7px;
+            right: 35px;
+
+            width: 14px;
+            height: 14px;
+
+            background: #022e16;
+
+            border-left: 1px solid rgba(255, 255, 255, 0.16);
+            border-top: 1px solid rgba(255, 255, 255, 0.16);
+
+            transform: rotate(45deg);
+        }
+
+
+        /* DROPDOWN ITEMS */
+
+        .luxury-nav .user-menu .dropdown-item {
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px 13px;
+
+            border-radius: 8px;
+
+            color: #ffffff !important;
+
+            font-family: "Poppins", sans-serif;
+
+            font-size: 14px;
+            font-weight: 400;
+
+            background: transparent;
+
+            transition: all 0.25s ease;
+        }
+
+
+        /* DROPDOWN ICONS */
+
+        .luxury-nav .user-menu .dropdown-item i {
+
+            width: 22px;
+
+            min-width: 22px;
+
+            text-align: center;
+
+            font-size: 17px;
+
+            color: #ffffff !important;
+        }
+
+
+        /* HOVER */
+
+        .luxury-nav .user-menu .dropdown-item:hover {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            color: #ffffff !important;
+
+            transform: translateX(3px);
+        }
+
+
+        /* DIVIDER */
+
+        .luxury-nav .user-menu .dropdown-divider {
+
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+            margin: 8px 4px;
+        }
+
+
+        /* LOGOUT FORM */
+
+        .luxury-nav .user-menu form {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* =====================================================
+           REGISTER
+        ====================================================== */
+
+        .luxury-nav .register-btn {
+
+            display: flex;
+            align-items: center;
+
+            background: transparent !important;
+
+            color: #ffffff !important;
+
+            border: none !important;
+
+            border-radius: 0;
+
+            box-shadow: none !important;
+
+            padding: 10px 11px !important;
+
+            margin-left: 0;
+
+            font-family: "Poppins", sans-serif;
+
+            font-size: 17px;
+
+            font-weight: 500;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .luxury-nav .register-btn i {
+            color: #ffffff !important;
+        }
+
+
+        .luxury-nav .register-btn:hover {
+
+            background: transparent !important;
+
+            color: #ffffff !important;
+
+            opacity: 0.75;
+
+            transform: translateY(-1px);
+
+            box-shadow: none !important;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ====================================================== */
+
+        .luxury-nav .logout-form {
+
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .luxury-nav .logout-btn {
+
+            color: #ffffff !important;
+
+            background: transparent;
+
+            white-space: nowrap;
+
+            margin-left: 5px;
+        }
+
+
+        .luxury-nav .logout-btn i {
+
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           SILVER INTELLIGENCE
+        ====================================================== */
+
+        .luxury-nav .silver-intelligence,
+        .luxury-nav .silver-intelligence i {
+
+            color: #ffffff !important;
+        }
+
+
+        .luxury-nav .silver-intelligence:hover,
+        .luxury-nav .silver-intelligence:hover i {
+
+            color: #ffffff !important;
+
+            opacity: 0.75;
+        }
+
+
+        /* =====================================================
+           MOBILE TOGGLE
+        ====================================================== */
+
+        .luxury-nav .navbar-toggler {
+
+            border: 1px solid rgba(255, 255, 255, 0.4);
+
+            padding: 8px 12px;
+        }
+
+
+        .luxury-nav .navbar-toggler i {
+
+            color: #ffffff !important;
+
+            font-size: 24px;
+        }
+
+
+        /* =====================================================
+           HOME PAGE - COMMON
+        ====================================================== */
+
+        .home-section-label {
+
+            font-family: "Poppins", sans-serif;
+
+            font-size: 12px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            color: rgba(9, 23, 47, 0.55);
+
+            margin-bottom: 12px;
+        }
+
+
+        .home-section-title {
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 48px;
+
+            font-weight: 600;
+
+            color: #082917;
+
+            margin-bottom: 18px;
+        }
+
+
+        .home-section-text {
+
+            font-family: "Poppins", sans-serif;
+
+            color: #666666;
+
+            font-size: 15px;
+
+            line-height: 1.9;
+
+            max-width: 700px;
+        }
+
+
+        /* =====================================================
+           WHAT WE SELL
+        ====================================================== */
+
+        .product-category-section {
+
+            padding: 95px 0;
+
+            background: #ffffff;
+        }
+
+
+        .product-category-card {
+
+            height: 100%;
+
+            padding: 40px 28px;
+
+            text-align: center;
+
+            border: 1px solid rgba(9, 23, 47, 0.12);
+
+            background: #ffffff;
+
+            transition: all 0.35s ease;
+        }
+
+
+        .product-category-card:hover {
+
+            transform: translateY(-8px);
+
+            box-shadow:
+                0 18px 45px rgba(9, 23, 47, 0.12);
+        }
+
+
+        .product-category-card i {
+
+            font-size: 35px;
+
+            color: #082917;
+
+            margin-bottom: 20px;
+        }
+
+
+        .product-category-card h4 {
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 28px;
+
+            color: #082917;
+
+            margin-bottom: 12px;
+        }
+
+
+        .product-category-card p {
+
+            font-family: "Poppins", sans-serif;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+
+            color: #666666;
+
+            margin-bottom: 0;
+        }
+
+
+        /* =====================================================
+           CRAFTING SECTION
+        ====================================================== */
+
+        .crafting-section {
+
+            background: #f7f7f5;
+
+            padding: 100px 0;
+        }
+
+
+        .crafting-card {
+
+            padding: 30px 0;
+
+            border-bottom:
+                1px solid rgba(9, 23, 47, 0.12);
+        }
+
+
+        .crafting-card:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .crafting-number {
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 54px;
+
+            color: #082917;
+
+            opacity: 0.18;
+
+            line-height: 1;
+        }
+
+
+        .crafting-card h4 {
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 29px;
+
+            color: #082917;
+
+            margin: 10px 0;
+        }
+
+
+        .crafting-card p {
+
+            font-family: "Poppins", sans-serif;
+
+            color: #666666;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            margin-bottom: 0;
+        }
+
+
+        /* =====================================================
+           QUALITY SECTION
+        ====================================================== */
+
+        .quality-section {
+
+            background: #082917;
+
+            padding: 100px 0;
+
+            color: #ffffff;
+        }
+
+
+        .quality-section .home-section-label {
+
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+
+        .quality-section .home-section-title {
+
+            color: #ffffff;
+        }
+
+
+        .quality-section .home-section-text {
+
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+
+        .quality-card {
+
+            padding: 35px 25px;
+
+            height: 100%;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            transition: all 0.3s ease;
+        }
+
+
+        .quality-card:hover {
+
+            transform: translateY(-6px);
+
+            border-color:
+                rgba(255, 255, 255, 0.35);
+
+            background:
+                rgba(255, 255, 255, 0.06);
+        }
+
+
+        .quality-card i {
+
+            font-size: 30px;
+
+            color: #ffffff;
+
+            margin-bottom: 20px;
+        }
+
+
+        .quality-card h4 {
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 27px;
+
+            color: #ffffff;
+
+            margin-bottom: 12px;
+        }
+
+
+        .quality-card p {
+
+            font-family: "Poppins", sans-serif;
+
+            color: rgba(255, 255, 255, 0.68);
+
+            font-size: 13px;
+
+            line-height: 1.8;
+
+            margin-bottom: 0;
+        }
+
+
+        /* =====================================================
+           FINAL BRAND STATEMENT
+        ====================================================== */
+
+        .brand-statement {
+
+            background: #ffffff;
+
+            padding: 105px 20px;
+
+            text-align: center;
+        }
+
+
+        .brand-statement h2 {
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 54px;
+
+            color: #082917;
+
+            margin-bottom: 18px;
+
+            font-weight: 600;
+        }
+
+
+        .brand-statement p {
+
+            font-family: "Poppins", sans-serif;
+
+            color: #666666;
+
+            font-size: 15px;
+
+            max-width: 680px;
+
+            margin: auto;
+
+            line-height: 1.9;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ====================================================== */
+
+        @media (max-width: 1250px) {
+
+            .luxury-nav .brand {
+
+                min-width: 190px;
+
+                font-size: 32px;
+            }
+
+
+            .luxury-nav .nav-link,
+            .luxury-nav .register-btn,
+            .luxury-nav .user-dropdown-toggle {
+
+                font-size: 15px;
+
+                padding-left: 7px !important;
+
+                padding-right: 7px !important;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 991px) {
+
+            .luxury-nav {
+
+                min-height: auto;
+
+                padding: 15px 0;
+            }
+
+
+            .luxury-nav .brand {
+
+                min-width: auto;
+
+                font-size: 30px;
+            }
+
+
+            .luxury-nav .brand span {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+            }
+
+
+            .luxury-nav .navbar-collapse {
+
+                display: block;
+
+                margin-top: 20px;
+            }
+
+
+            .luxury-nav .navbar-nav {
+
+                align-items: flex-start !important;
+
+                gap: 3px;
+
+                margin-left: 0;
+            }
+
+
+            .luxury-nav .nav-item {
+
+                width: 100%;
+            }
+
+
+            .luxury-nav .nav-link {
+
+                width: 100%;
+
+                padding: 10px 5px !important;
+            }
+
+
+            /* USER DROPDOWN MOBILE */
+
+            .luxury-nav .user-dropdown {
+
+                width: 100%;
+            }
+
+
+            .luxury-nav .user-dropdown-toggle {
+
+                width: 100%;
+
+                justify-content: flex-start;
+
+                padding: 10px 5px;
+            }
+
+
+            .luxury-nav .user-menu {
+
+                position: static !important;
+
+                width: 100%;
+
+                margin-top: 5px;
+
+                box-shadow: none;
+
+                border-radius: 8px;
+            }
+
+
+            .luxury-nav .user-menu::before {
+
+                display: none;
+            }
+
+
+            .luxury-nav .register-btn {
+
+                width: 100%;
+
+                justify-content: flex-start;
+
+                padding: 10px 5px !important;
+
+                margin-left: 0;
+            }
+
+
+            .luxury-nav .logout-form {
+
+                width: 100%;
+            }
+
+
+            .luxury-nav .logout-btn {
+
+                margin-left: 0;
+
+                margin-top: 5px;
+            }
+
+
+            .home-section-title {
+
+                font-size: 42px;
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ====================================================== */
+
+        @media (max-width: 576px) {
+
+            .luxury-nav .brand {
+
+                font-size: 27px;
+            }
+
+
+            .luxury-nav .brand span {
+
+                font-size: 8px;
+            }
+
+
+            .home-section-title {
+
+                font-size: 37px;
+            }
+
+
+            .brand-statement h2 {
+
+                font-size: 40px;
+            }
+
+
+            .product-category-section,
+            .crafting-section,
+            .quality-section {
+
+                padding: 70px 20px;
+            }
+
+
+            .brand-statement {
+
+                padding: 75px 20px;
+            }
+
+        }
+
+        
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar navbar-expand-lg luxury-nav">
+
+        <div class="container">
+
+
+            <!-- ================= BRAND ================= -->
+
+            <a
+                class="navbar-brand brand"
+                href="{{ url_for('main.home') }}"
+            >
+
+                Shree Vagheswari Jewellers
+
+                <span>
+                    JEWELS
+                </span>
+
+            </a>
+
+
+            <!-- ================= MOBILE MENU ================= -->
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav"
+                aria-controls="nav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+
+            <!-- ================= NAVIGATION ================= -->
+
+            <div
+                class="collapse navbar-collapse"
+                id="nav"
+            >
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+
+                    <!-- ================= SHOP ================= -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link shop-link"
+                            href="{{ url_for('main.shop') }}"
+                        >
+
+                            <i class="bi bi-bag"></i>
+
+                            <span>
+                                Shop
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- ================= FIND JEWELLERY ================= -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link find-link"
+                            href="{{ url_for('main.recommendations') }}"
+                        >
+
+                            <i class="bi bi-search"></i>
+
+                            <span>
+                                Find Jewellery
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- ================= BUILD YOUR SET ================= -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link build-link"
+                            href="{{ url_for('main.build_set') }}"
+                        >
+
+                            <span>
+                                Build Your Jewellery Set
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- ================= CART ================= -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link cart-link"
+                            href="{{ url_for('products.cart') }}"
+                        >
+
+                            <i class="bi bi-cart3"></i>
+
+                            <span>
+                                Cart
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- =================================================
+                         ADMIN / EMPLOYEE DASHBOARD
+                    ================================================== -->
+
+                    {% if current_user.is_authenticated
+                          and current_user.role in ['admin', 'employee'] %}
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link dashboard-link"
+                            href="{{ url_for('admin.dashboard') }}"
+                        >
+
+                            <i class="bi bi-speedometer2"></i>
+
+                            <span>
+                                Dashboard
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         LOGGED IN USER
+                    ================================================== -->
+
+                    {% if current_user.is_authenticated %}
+
+
+                    <!-- =================================================
+                         HI USER + DROPDOWN
+                    ================================================== -->
+
+                    <li class="nav-item dropdown user-dropdown">
+
+                        <button
+                            class="user-dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Hi, {{ current_user.name.split()[0] }}
+                            </span>
+
+                            <i class="bi bi-chevron-down dropdown-arrow"></i>
+
+                        </button>
+
+
+                        <!-- =================================================
+                             USER FEATURES MENU
+                        ================================================== -->
+
+                        <ul
+                            class="dropdown-menu dropdown-menu-end user-menu"
+                        >
+
+
+                            <!-- ================= MY PROFILE ================= -->
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('products.profile') }}"
+                                >
+
+                                    <i class="bi bi-person-circle"></i>
+
+                                    <span>
+                                        My Profile
+                                    </span>
+
+                                </a>
+
+                            </li>
+
+
+                            <!-- ================= MY ORDERS ================= -->
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('products.profile') }}#orders"
+                                >
+
+                                    <i class="bi bi-box-seam"></i>
+
+                                    <span>
+                                        My Orders
+                                    </span>
+
+                                </a>
+
+                            </li>
+
+
+                            <!-- ================= WISHLIST ================= -->
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="return false;"
+                                >
+
+                                    <i class="bi bi-heart"></i>
+
+                                    <span>
+                                        Wishlist
+                                    </span>
+
+                                </a>
+
+                            </li>
+
+
+                            <!-- ================= ADDRESSES ================= -->
+
+                           
+
+
+                            <!-- ================= ACCOUNT SETTINGS ================= -->
+
+
+                            <!-- ================= DIVIDER ================= -->
+
+                            <li>
+
+                                <hr class="dropdown-divider">
+
+                            </li>
+
+
+                            <!-- ================= LOGOUT ================= -->
+
+                            <li>
+
+                                <form
+                                    method="post"
+                                    action="{{ url_for('auth.logout') }}"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="csrf_token"
+                                        value="{{ csrf_token() }}"
+                                    >
+
+
+                                    <button
+                                        type="submit"
+                                        class="dropdown-item"
+                                    >
+
+                                        <i class="bi bi-box-arrow-right"></i>
+
+                                        <span>
+                                            Logout
+                                        </span>
+
+                                    </button>
+
+                                </form>
+
+                            </li>
+
+
+                        </ul>
+
+                    </li>
+
+
+                    {% else %}
+
+
+                    <!-- =================================================
+                         LOGIN
+                    ================================================== -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link login-link"
+                            href="{{ url_for('auth.login') }}"
+                        >
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            <span>
+                                Login
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- =================================================
+                         REGISTER
+                    ================================================== -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="register-btn"
+                            href="{{ url_for('auth.register') }}"
+                        >
+
+                            <i class="bi bi-person-plus"></i>
+
+                            <span>
+                                Register
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         SILVER INTELLIGENCE
+                    ================================================== -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link silver-intelligence"
+                            href="{{ url_for('main.metal_prices') }}"
+                        >
+
+                            <span>
+                                Silver Intelligence
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         FLASH MESSAGES
+    ====================================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="container mt-3">
+
+                <div class="alert alert-{{ category }} luxury-alert">
+
+                    {{ message }}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+
+        <!-- =================================================
+             HOME PAGE ONLY
+        ================================================== -->
+
+        {% if request.endpoint == 'main.home' %}
+
+
+            <!-- =================================================
+                 WHAT WE SELL
+            ================================================== -->
+
+            <section class="product-category-section">
+
+                <div class="container">
+
+
+                    <div class="text-center mb-5">
+
+                        <div class="home-section-label">
+                            The Collection
+                        </div>
+
+                        <h2 class="home-section-title">
+                            What We Sell
+                        </h2>
+
+                        <p class="home-section-text mx-auto">
+
+                            Discover thoughtfully designed 925 sterling
+                            silver jewellery created for everyday elegance
+                            and timeless style.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="row g-4">
+
+
+                        <!-- RINGS -->
+
+                        <div class="col-lg-4 col-md-6">
+
+                            <div class="product-category-card">
+
+                                <i class="bi bi-circle"></i>
+
+                                <h4>
+                                    Signature Rings
+                                </h4>
+
+                                <p>
+                                    Elegant Shree Vagheswari Jewellers rings designed
+                                    with refined details and a modern
+                                    silhouette.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- EARRINGS -->
+
+                        <div class="col-lg-4 col-md-6">
+
+                            <div class="product-category-card">
+
+                                <i class="bi bi-gem"></i>
+
+                                <h4>
+                                    Elegant Earrings
+                                </h4>
+
+                                <p>
+                                    Minimal and statement earrings
+                                    crafted to complement every occasion.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BRACELETS -->
+
+                        <div class="col-lg-4 col-md-6">
+
+                            <div class="product-category-card">
+
+                                <i class="bi bi-link-45deg"></i>
+
+                                <h4>
+                                    Silver Bracelets
+                                </h4>
+
+                                <p>
+                                    Carefully finished bracelets combining
+                                    comfort, character and timeless appeal.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CHAINS -->
+
+                        <div class="col-lg-6 col-md-6">
+
+                            <div class="product-category-card">
+
+                                <i class="bi bi-bezier2"></i>
+
+                                <h4>
+                                    Silver Chains
+                                </h4>
+
+                                <p>
+                                    Premium Shree Vagheswari Jewellers chains with clean,
+                                    versatile designs for everyday wear.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PENDANTS -->
+
+                        <div class="col-lg-6 col-md-6">
+
+                            <div class="product-category-card">
+
+                                <i class="bi bi-heart"></i>
+
+                                <h4>
+                                    Signature Pendants
+                                </h4>
+
+                                <p>
+                                    Meaningful pendant designs made to add
+                                    a subtle statement to your personal style.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 OUR CRAFTING
+            ================================================== -->
+
+            <section class="crafting-section">
+
+                <div class="container">
+
+                    <div class="row align-items-center g-5">
+
+
+                        <!-- LEFT SIDE -->
+
+                        <div class="col-lg-5">
+
+                            <div class="home-section-label">
+                                Behind Every Piece
+                            </div>
+
+                            <h2 class="home-section-title">
+                                Crafted With Intention
+                            </h2>
+
+                            <p class="home-section-text">
+
+                                Every piece at Shree Vagheswari Jewellers Jewels is created
+                                with attention to detail, balanced proportions
+                                and a focus on lasting elegance.
+
+                            </p>
+
+                        </div>
+
+
+                        <!-- RIGHT SIDE -->
+
+                        <div class="col-lg-7">
+
+
+                            <!-- CRAFTING 01 -->
+
+                            <div class="crafting-card">
+
+                                <div class="crafting-number">
+                                    01
+                                </div>
+
+                                <h4>
+                                    Thoughtful Design
+                                </h4>
+
+                                <p>
+
+                                    Our designs combine contemporary
+                                    aesthetics with timeless jewellery
+                                    silhouettes.
+
+                                </p>
+
+                            </div>
+
+
+                            <!-- CRAFTING 02 -->
+
+                            <div class="crafting-card">
+
+                                <div class="crafting-number">
+                                    02
+                                </div>
+
+                                <h4>
+                                    925 Sterling Silver
+                                </h4>
+
+                                <p>
+
+                                    We focus on 925 sterling silver
+                                    jewellery for its refined appearance
+                                    and versatile everyday character.
+
+                                </p>
+
+                            </div>
+
+
+                            <!-- CRAFTING 03 -->
+
+                            <div class="crafting-card">
+
+                                <div class="crafting-number">
+                                    03
+                                </div>
+
+                                <h4>
+                                    Fine Finishing
+                                </h4>
+
+                                <p>
+
+                                    Each piece is finished with attention
+                                    to detail so it feels polished,
+                                    elegant and ready to become part
+                                    of your collection.
+
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 WHY Shree Vagheswari Jewellers
+            ================================================== -->
+
+            <section class="quality-section">
+
+                <div class="container">
+
+
+                    <div class="text-center mb-5">
+
+                        <div class="home-section-label">
+                            Why Choose Us
+                        </div>
+
+                        <h2 class="home-section-title">
+                            The Shree Vagheswari Jewellers Difference
+                        </h2>
+
+                        <p class="home-section-text mx-auto">
+
+                            Designed for people who appreciate quality,
+                            simplicity and jewellery that fits naturally
+                            into everyday life.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="row g-4">
+
+
+                        <!-- QUALITY 01 -->
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <div class="quality-card">
+
+                                <i class="bi bi-gem"></i>
+
+                                <h4>
+                                    925 Sterling Silver
+                                </h4>
+
+                                <p>
+
+                                    Jewellery created using 925 sterling
+                                    silver for a premium and elegant finish.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUALITY 02 -->
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <div class="quality-card">
+
+                                <i class="bi bi-stars"></i>
+
+                                <h4>
+                                    Elegant Design
+                                </h4>
+
+                                <p>
+
+                                    Clean, modern designs created to remain
+                                    stylish beyond changing trends.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUALITY 03 -->
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <div class="quality-card">
+
+                                <i class="bi bi-hand-index-thumb"></i>
+
+                                <h4>
+                                    Fine Finishing
+                                </h4>
+
+                                <p>
+
+                                    Attention to small details gives each
+                                    piece a refined and polished appearance.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUALITY 04 -->
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <div class="quality-card">
+
+                                <i class="bi bi-heart"></i>
+
+                                <h4>
+                                    Made To Be Yours
+                                </h4>
+
+                                <p>
+
+                                    Jewellery designed for everyday moments,
+                                    celebrations and meaningful memories.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FINAL BRAND STATEMENT
+            ================================================== -->
+
+            <section class="brand-statement">
+
+                <div class="container">
+
+                    <h2>
+                        Timeless Elegance.
+                    </h2>
+
+                    <p>
+
+                        From a simple everyday piece to something meaningful,
+                        Shree Vagheswari Jewellers Jewels brings together refined design,
+                        quality silver and modern craftsmanship.
+
+                    </p>
+
+                </div>
+
+            </section>
+
+
+        {% endif %}
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer mt-5">
+
+        <div class="container py-4">
+
+            <div class="row align-items-center">
+
+
+                <!-- ================= FOOTER BRAND ================= -->
+
+                <div class="col-md-6">
+
+                    <div class="footer-brand">
+
+                        Shree Vagheswari Jewellers
+
+                        <span>
+                            JEWELS
+                        </span>
+
+                    </div>
+
+
+                    <p class="footer-tagline mb-0">
+
+                        Timeless elegance.
+                        Crafted for every moment.
+
+                    </p>
+
+                </div>
+
+
+                <!-- ================= COPYRIGHT ================= -->
+
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+
+                    <span class="copyright">
+
+                        © 2026 Shree Vagheswari Jewellers Jewels.
+                        All Rights Reserved.
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         BOOTSTRAP JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         CUSTOM JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/main.js') }}">
+    </script>
+
+
+</body>
+
+</html>

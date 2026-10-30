@@ -1,0 +1,2763 @@
+{% extends "base.html" %}
+
+{% block title %}Shree Vagheswari Jewellers Jewels | Timeless Elegance{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+     PRODUCT IMAGE MAPPING
+========================================= -->
+
+{% set image_map = {
+    "RNG001": "chain3.jpeg",
+    "RNG002": "chain2.jpeg",
+    "EAR001": "chain1.jpeg",
+    "EAR002": "chain.webp",
+    "BRC001": "bracelet2.webp",
+    "BRC002": "bracelet1.jpeg",
+    "CHN001": "bracelet3.jpeg",
+    "CHN002": "bracelet4.webp",
+    "PND001": "braclet.webp",
+    "PEN002": "pendant.jpg"
+} %}
+
+
+<!-- =========================================
+     HERO SECTION
+========================================= -->
+
+<section class="luxury-hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <p class="hero-eyebrow">
+                THE SIGNATURE COLLECTION
+            </p>
+
+            <h1>
+                Timeless Elegance
+                <br>
+                <em>Crafted For Every Moment</em>
+            </h1>
+
+            <p class="hero-description">
+                Discover refined jewellery designed to become
+                part of your story.
+            </p>
+
+            <a
+                href="{{ url_for('main.shop') }}"
+                class="btn btn-silver hero-btn"
+            >
+                Shop Collection
+                <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-scroll">
+
+        <span></span>
+
+        <small>
+            EXPLORE
+        </small>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     Shree Vagheswari Jewellers AI CONCIERGE
+========================================= -->
+
+{% if current_user.is_authenticated and ai_recommendations %}
+
+<section class="ai-925Silver-section">
+
+    <div class="container py-5">
+
+        <!-- AI MAIN CARD -->
+
+        <div class="ai-925Silver-card">
+
+            <div class="ai-925Silver-glow"></div>
+
+            <div class="ai-925Silver-icon">
+
+                <i class="bi bi-stars"></i>
+
+            </div>
+
+            <div class="ai-925Silver-content">
+
+                <p class="ai-925Silver-eyebrow">
+                    Shree Vagheswari Jewellers AI CONCIERGE
+                </p>
+
+                <h2>
+                    Curated Especially For You
+                </h2>
+
+                <p
+                    class="ai-925Silver-message"
+                    id="aiMessage"
+                >
+                    {{ ai_message }}
+                </p>
+
+                <button
+                    type="button"
+                    class="ai-925Silver-listen-btn"
+                    onclick="speakRecommendation()"
+                >
+
+                    <i class="bi bi-volume-up"></i>
+
+                    Listen to Shree Vagheswari Jewellers AI
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI RECOMMENDATION PRODUCTS -->
+
+        <div class="ai-925Silver-products">
+
+            <div class="ai-products-heading">
+
+                <p class="eyebrow">
+                    PERSONALIZED PICKS
+                </p>
+
+                <h3>
+                    Selected For You
+                </h3>
+
+                <p class="ai-products-subtitle">
+                    Recommendations selected based on your jewellery preferences.
+                </p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                {% for item in ai_recommendations %}
+
+                {% set p = item.product %}
+
+                {% set image_file = image_map.get(p.sku, p.image) %}
+
+
+                <div class="col-6 col-lg-4">
+
+                    <div class="ai-925Silver-product-card">
+
+
+                        <!-- PRODUCT IMAGE -->
+
+                        <div class="ai-925Silver-product-image">
+
+                            {% if image_file %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='uploads/products/' ~ image_file
+                                ) }}"
+                                alt="{{ p.name }}"
+                                loading="lazy"
+                            >
+
+                            {% else %}
+
+                            <div class="ai-925Silver-product-placeholder">
+
+                                <i class="bi bi-gem"></i>
+
+                            </div>
+
+                            {% endif %}
+
+
+                            <!-- AI BADGE -->
+
+                            <span class="ai-925Silver-product-badge">
+
+                                <i class="bi bi-stars"></i>
+
+                                AI PICK
+
+                            </span>
+
+
+                            <!-- SCORE -->
+
+                            <span class="ai-925Silver-score">
+
+                                {{ item.score }}% Match
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- PRODUCT DETAILS -->
+
+                        <div class="ai-925Silver-product-content">
+
+                            <small class="ai-925Silver-product-category">
+
+                                {% if p.category %}
+
+                                    {{ p.category.name }}
+
+                                {% else %}
+
+                                    Jewellery
+
+                                {% endif %}
+
+                            </small>
+
+
+                            <h4>
+                                {{ p.name }}
+                            </h4>
+
+
+                            {% if p.description %}
+
+                            <p class="ai-925Silver-product-description">
+
+                                {{ p.description }}
+
+                            </p>
+
+                            {% endif %}
+
+
+                            <!-- RECOMMENDATION REASONS -->
+
+                            {% if item.reasons %}
+
+                            <div class="ai-925Silver-reasons">
+
+                                {% for reason in item.reasons[:2] %}
+
+                                <span>
+
+                                    <i class="bi bi-check2"></i>
+
+                                    {{ reason }}
+
+                                </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                            {% endif %}
+
+
+                            <!-- PRICE -->
+
+                            <div class="ai-925Silver-product-bottom">
+
+                                <strong>
+
+                                    ₹{{ "%.2f"|format(p.price|float) }}
+
+                                </strong>
+
+                                <span>
+                                    Shree Vagheswari Jewellers
+                                </span>
+
+                            </div>
+
+
+                            <!-- VIEW BUTTON -->
+
+                            <a
+                                href="{{ url_for(
+                                    'products.detail',
+                                    product_id=p.id
+                                ) }}"
+                                class="ai-925Silver-view-product"
+                            >
+
+                                View Jewellery
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<!-- =========================================
+     FEATURED JEWELLERY
+========================================= -->
+
+<section class="featured-section">
+
+    <div class="container py-5">
+
+        <div class="section-heading text-center mb-5">
+
+            <p class="eyebrow">
+                CURATED FOR YOU
+            </p>
+
+            <h2>
+                Featured Jewellery
+            </h2>
+
+            <div class="heading-line"></div>
+
+            <p class="section-description">
+
+                Discover our carefully selected pieces,
+                crafted to celebrate life's most beautiful moments.
+
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            {% for p in products %}
+
+            {% set image_file = image_map.get(p.sku, p.image) %}
+
+
+            <div class="col-6 col-lg-3">
+
+                <div class="luxury-product-card">
+
+
+                    <!-- PRODUCT IMAGE -->
+
+                    <div class="product-image">
+
+                        {% if image_file %}
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='uploads/products/' ~ image_file
+                            ) }}"
+                            alt="{{ p.name }}"
+                            class="featured-product-real-image"
+                            loading="lazy"
+                        >
+
+                        {% else %}
+
+                        <div class="product-image-pattern"></div>
+
+                        <div class="gem-icon">
+
+                            <i class="bi bi-gem"></i>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <span class="featured-badge">
+                            FEATURED
+                        </span>
+
+                    </div>
+
+
+                    <!-- PRODUCT INFORMATION -->
+
+                    <div class="product-content">
+
+                        <small class="product-category">
+
+                            {% if p.category %}
+
+                                {{ p.category.name }}
+
+                            {% else %}
+
+                                Jewellery
+
+                            {% endif %}
+
+                        </small>
+
+
+                        <h5>
+                            {{ p.name }}
+                        </h5>
+
+
+                        <div class="product-bottom">
+
+                            <strong>
+                                ₹{{ "%.2f"|format(p.price|float) }}
+                            </strong>
+
+                            <span class="view-product">
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for(
+                                'products.detail',
+                                product_id=p.id
+                            ) }}"
+                            class="stretched-link"
+                        ></a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% else %}
+
+            <div class="col-12">
+
+                <div class="empty-products">
+
+                    <i class="bi bi-gem"></i>
+
+                    <h4>
+                        Collection Coming Soon
+                    </h4>
+
+                    <p>
+                        Our jewellery collection is being prepared.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% if products %}
+
+        <div class="text-center mt-5">
+
+            <a
+                href="{{ url_for('main.shop') }}"
+                class="collection-link"
+            >
+
+                View Complete Collection
+
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     BRAND EXPERIENCE
+========================================= -->
+
+<section class="brand-section">
+
+    <div class="container py-5">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <p class="eyebrow">
+                    THE Shree Vagheswari Jewellers EXPERIENCE
+                </p>
+
+                <h2 class="brand-title">
+
+                    Jewellery That
+                    <br>
+                    <em>Tells Your Story</em>
+
+                </h2>
+
+                <p class="brand-text">
+
+                    Every Shree Vagheswari Jewellers piece is designed with attention
+                    to detail, timeless elegance and exceptional
+                    craftsmanship.
+
+                </p>
+
+                <a
+                    href="{{ url_for('main.shop') }}"
+                    class="btn btn-outline-silver"
+                >
+
+                    Discover More
+
+                    <i class="bi bi-arrow-right ms-2"></i>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <div class="experience-grid">
+
+
+                    <div class="experience-card">
+
+                        <i class="bi bi-gem"></i>
+
+                        <h5>
+                            Fine Craftsmanship
+                        </h5>
+
+                        <p>
+                            Carefully designed jewellery
+                            made with precision.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-card">
+
+                        <i class="bi bi-award"></i>
+
+                        <h5>
+                            Timeless Design
+                        </h5>
+
+                        <p>
+                            Elegant pieces created to
+                            last for generations.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-card">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <h5>
+                            Trusted Quality
+                        </h5>
+
+                        <p>
+                            Quality-focused jewellery
+                            you can confidently cherish.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-card">
+
+                        <i class="bi bi-heart"></i>
+
+                        <h5>
+                            Made With Love
+                        </h5>
+
+                        <p>
+                            Designed for your most
+                            meaningful moments.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     CATEGORIES
+========================================= -->
+
+<section class="category-section">
+
+    <div class="container py-5">
+
+        <div class="section-heading text-center mb-5">
+
+            <p class="eyebrow">
+                EXPLORE OUR COLLECTIONS
+            </p>
+
+            <h2>
+                Find Your Signature
+            </h2>
+
+            <div class="heading-line"></div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            {% set category_number = namespace(value=0) %}
+
+
+            {% for c in categories %}
+
+                {% if c.name|lower not in [
+
+                    "necklaces",
+                    "bangles",
+                    "bridal jewellery",
+                    "gold jewellery",
+                    "silver jewellery",
+                    "diamond jewellery"
+
+                ] %}
+
+
+                    {% set category_number.value =
+                        category_number.value + 1
+                    %}
+
+
+                    <div class="col-6 col-md-4">
+
+                        <div
+                            class="luxury-category-card"
+                            onclick="window.location.href='{{ url_for(
+                                'products.index',
+                                category=c.name
+                            ) }}'"
+                            style="cursor: pointer;"
+                        >
+
+                            <div class="category-number">
+
+                                {{ "%02d"|format(
+                                    category_number.value
+                                ) }}
+
+                            </div>
+
+
+                            <div class="category-icon">
+
+                                <i class="bi bi-gem"></i>
+
+                            </div>
+
+
+                            <h5>
+
+                                {% if c.name|lower == "rings" %}
+
+                                    Signature Rings
+
+                                {% elif c.name|lower == "earrings" %}
+
+                                    Elegant Earrings
+
+                                {% elif c.name|lower == "bracelets" %}
+
+                                    Silver Bracelets
+
+                                {% elif c.name|lower == "chains" %}
+
+                                    Silver Chains
+
+                                {% elif c.name|lower == "pendants" %}
+
+                                    Signature Pendants
+
+                                {% else %}
+
+                                    {{ c.name }}
+
+                                {% endif %}
+
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     CTA
+========================================= -->
+
+<section class="luxury-cta">
+
+    <div class="cta-decoration left-decoration"></div>
+
+    <div class="cta-decoration right-decoration"></div>
+
+    <div class="container text-center">
+
+        <p class="cta-eyebrow">
+            YOUR NEXT SIGNATURE PIECE
+        </p>
+
+        <h2>
+
+            Find Something
+            <em>Extraordinary</em>
+
+        </h2>
+
+        <p>
+
+            Explore jewellery created to make
+            every moment unforgettable.
+
+        </p>
+
+        <a
+            href="{{ url_for('main.shop') }}"
+            class="btn btn-silver cta-btn"
+        >
+
+            Explore Collection
+
+            <i class="bi bi-arrow-right ms-2"></i>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     PAGE STYLES
+========================================= -->
+
+<style>
+
+/* =========================================
+   HERO
+========================================= */
+
+.luxury-hero {
+
+    min-height: 670px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            115deg,
+            var(--royal-blue-dark) 0%,
+            var(--royal-blue) 55%,
+            #102d68 100%
+        );
+}
+
+
+.luxury-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+
+    height: 600px;
+
+    border-radius: 50%;
+
+    right: -150px;
+
+    top: -180px;
+
+    border: 1px solid rgba(192,192,192,.15);
+
+    box-shadow:
+        0 0 0 80px rgba(192,192,192,.025),
+        0 0 0 160px rgba(192,192,192,.018);
+
+}
+
+
+.luxury-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+
+    height: 300px;
+
+    border-radius: 50%;
+
+    left: -100px;
+
+    bottom: -160px;
+
+    border: 1px solid rgba(232,232,232,.12);
+
+}
+
+
+.hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(6,19,47,.95),
+            rgba(11,31,77,.75),
+            rgba(11,31,77,.4)
+        );
+
+}
+
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 720px;
+
+    padding: 90px 0;
+
+}
+
+
+.hero-eyebrow {
+
+    color: var(--silver-light);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.hero-content h1 {
+
+    color: #ffffff;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: clamp(48px, 7vw, 82px);
+
+    line-height: .95;
+
+    font-weight: 500;
+
+    margin-bottom: 25px;
+
+}
+
+
+.hero-content h1 em {
+
+    color: var(--silver);
+
+    font-weight: 400;
+
+}
+
+
+.hero-description {
+
+    max-width: 480px;
+
+    color: #dfe3ea;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    margin-bottom: 30px;
+
+}
+
+
+.hero-btn {
+
+    padding: 13px 26px;
+
+    font-size: 12px;
+
+    letter-spacing: .5px;
+
+    font-weight: 600;
+
+}
+
+
+.hero-scroll {
+
+    position: absolute;
+
+    z-index: 3;
+
+    bottom: 25px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+.hero-scroll span {
+
+    width: 1px;
+
+    height: 35px;
+
+    background: var(--silver);
+
+}
+
+
+.hero-scroll small {
+
+    color: var(--silver-light);
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+}
+
+
+/* =========================================
+   Shree Vagheswari Jewellers AI SECTION
+========================================= */
+
+.ai-925Silver-section {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(192,192,192,.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(72,112,190,.12),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #f4f6fa 0%,
+            #ffffff 45%,
+            #eef2f8 100%
+        );
+
+    border-top: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.ai-925Silver-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    border-radius: 50%;
+
+    right: -260px;
+
+    top: -250px;
+
+    border: 1px solid rgba(11,31,77,.07);
+
+}
+
+
+.ai-925Silver-section::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+
+    height: 350px;
+
+    border-radius: 50%;
+
+    left: -220px;
+
+    bottom: -200px;
+
+    border: 1px solid rgba(11,31,77,.06);
+
+}
+
+
+/* =========================================
+   AI MAIN CARD
+========================================= */
+
+.ai-925Silver-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 30px;
+
+    padding: 42px;
+
+    border-radius: 24px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06132f 0%,
+            #0b1f4d 55%,
+            #142f69 100%
+        );
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 25px 65px rgba(6,19,47,.20);
+
+}
+
+
+/* Decorative glow */
+
+.ai-925Silver-glow {
+
+    position: absolute;
+
+    width: 360px;
+
+    height: 360px;
+
+    border-radius: 50%;
+
+    right: -150px;
+
+    top: -190px;
+
+    border: 1px solid rgba(192,192,192,.15);
+
+    box-shadow:
+        0 0 0 60px rgba(192,192,192,.025),
+        0 0 0 120px rgba(192,192,192,.015);
+
+}
+
+
+/* =========================================
+   AI ICON
+========================================= */
+
+.ai-925Silver-icon {
+
+    flex-shrink: 0;
+
+    width: 76px;
+
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.15),
+            rgba(255,255,255,.05)
+        );
+
+    border: 1px solid rgba(255,255,255,.20);
+
+    color: var(--silver-light);
+
+    font-size: 29px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.15);
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* =========================================
+   AI CONTENT
+========================================= */
+
+.ai-925Silver-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.ai-925Silver-eyebrow {
+
+    color: var(--silver);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.ai-925Silver-content h2 {
+
+    color: #ffffff;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 40px;
+
+    font-weight: 600;
+
+    margin: 0 0 10px;
+
+}
+
+
+.ai-925Silver-message {
+
+    color: #dfe5ef;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    max-width: 820px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =========================================
+   AI LISTEN BUTTON
+========================================= */
+
+.ai-925Silver-listen-btn {
+
+    border: none;
+
+    padding: 12px 21px;
+
+    border-radius: 30px;
+
+    background: #ffffff;
+
+    color: var(--royal-blue-dark);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+    transition: .25s ease;
+
+    cursor: pointer;
+
+}
+
+
+.ai-925Silver-listen-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.18);
+
+}
+
+
+.ai-925Silver-listen-btn i {
+
+    margin-right: 7px;
+
+}
+
+
+/* =========================================
+   AI PRODUCTS
+========================================= */
+
+.ai-925Silver-products {
+
+    margin-top: 48px;
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.ai-products-heading {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+
+.ai-products-heading .eyebrow {
+
+    color: var(--silver-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.ai-products-heading h3 {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 38px;
+
+    font-weight: 600;
+
+    margin: 0;
+
+}
+
+
+.ai-products-subtitle {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 7px;
+
+}
+
+
+/* =========================================
+   AI PRODUCT CARD
+========================================= */
+
+.ai-925Silver-product-card {
+
+    height: 100%;
+
+    background: rgba(255,255,255,.95);
+
+    border: 1px solid var(--border);
+
+    transition: .3s ease;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(6,19,47,.05);
+
+}
+
+
+.ai-925Silver-product-card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 20px 45px rgba(6,19,47,.13);
+
+    border-color: #c9ced7;
+
+}
+
+
+/* =========================================
+   AI PRODUCT IMAGE
+========================================= */
+
+.ai-925Silver-product-image {
+
+    height: 260px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f6f8,
+            #e5e8ee
+        );
+
+}
+
+
+.ai-925Silver-product-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform .4s ease;
+
+}
+
+
+.ai-925Silver-product-card:hover
+.ai-925Silver-product-image img {
+
+    transform: scale(1.05);
+
+}
+
+
+.ai-925Silver-product-placeholder {
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--royal-blue);
+
+    font-size: 35px;
+
+}
+
+
+/* =========================================
+   AI BADGE
+========================================= */
+
+.ai-925Silver-product-badge {
+
+    position: absolute;
+
+    top: 14px;
+
+    left: 14px;
+
+    padding: 6px 9px;
+
+    background: var(--royal-blue);
+
+    color: #ffffff;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+}
+
+
+.ai-925Silver-product-badge i {
+
+    margin-right: 4px;
+
+}
+
+
+/* =========================================
+   AI MATCH SCORE
+========================================= */
+
+.ai-925Silver-score {
+
+    position: absolute;
+
+    bottom: 14px;
+
+    right: 14px;
+
+    padding: 6px 9px;
+
+    background: rgba(6,19,47,.88);
+
+    color: var(--silver-light);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    backdrop-filter: blur(5px);
+
+}
+
+
+/* =========================================
+   AI PRODUCT CONTENT
+========================================= */
+
+.ai-925Silver-product-content {
+
+    padding: 20px;
+
+}
+
+
+.ai-925Silver-product-category {
+
+    color: var(--silver-dark);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.ai-925Silver-product-content h4 {
+
+    color: var(--royal-blue-dark);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+    margin: 5px 0 8px;
+
+}
+
+
+.ai-925Silver-product-description {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+    margin-bottom: 14px;
+
+}
+
+
+/* =========================================
+   AI REASONS
+========================================= */
+
+.ai-925Silver-reasons {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.ai-925Silver-reasons span {
+
+    color: var(--royal-blue);
+
+    font-size: 10px;
+
+}
+
+
+.ai-925Silver-reasons i {
+
+    color: var(--silver-dark);
+
+    margin-right: 5px;
+
+}
+
+
+/* =========================================
+   AI PRICE
+========================================= */
+
+.ai-925Silver-product-bottom {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-top: 12px;
+
+    border-top: 1px solid var(--border);
+
+}
+
+
+.ai-925Silver-product-bottom strong {
+
+    color: var(--royal-blue);
+
+    font-size: 15px;
+
+}
+
+
+.ai-925Silver-product-bottom span {
+
+    color: var(--silver-dark);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =========================================
+   AI VIEW PRODUCT
+========================================= */
+
+.ai-925Silver-view-product {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 15px;
+
+    padding: 11px 14px;
+
+    background: var(--royal-blue-dark);
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    transition: .25s ease;
+
+}
+
+
+.ai-925Silver-view-product:hover {
+
+    background: var(--royal-blue);
+
+    color: #ffffff;
+
+}
+
+
+.ai-925Silver-view-product i {
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================
+   FEATURED SECTION
+========================================= */
+
+.featured-section {
+
+    background: #ffffff;
+
+}
+
+
+.section-heading .eyebrow {
+
+    color: var(--silver-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.section-heading h2 {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 42px;
+
+    font-weight: 600;
+
+    margin: 0;
+
+}
+
+
+.heading-line {
+
+    width: 45px;
+
+    height: 2px;
+
+    margin: 15px auto;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--royal-blue),
+            var(--silver)
+        );
+
+}
+
+
+.section-description {
+
+    max-width: 550px;
+
+    margin: 0 auto;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================
+   PRODUCT CARD
+========================================= */
+
+.luxury-product-card {
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+    transition: all .3s ease;
+
+    position: relative;
+
+}
+
+
+.luxury-product-card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 18px 45px rgba(6,19,47,.12);
+
+    border-color: #c9ced7;
+
+}
+
+
+.product-image {
+
+    height: 250px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f6f8,
+            #e5e8ee
+        );
+
+}
+
+
+.featured-product-real-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform .4s ease;
+
+}
+
+
+.luxury-product-card:hover
+.featured-product-real-image {
+
+    transform: scale(1.04);
+
+}
+
+
+.product-image-pattern {
+
+    position: absolute;
+
+    width: 180px;
+
+    height: 180px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(11,31,77,.10);
+
+}
+
+
+.product-image-pattern::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 20px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(11,31,77,.08);
+
+}
+
+
+.gem-icon {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 75px;
+
+    height: 75px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--royal-blue),
+            var(--royal-blue-dark)
+        );
+
+    color: var(--silver-light);
+
+    font-size: 27px;
+
+    box-shadow:
+        0 15px 30px rgba(6,19,47,.18);
+
+}
+
+
+.featured-badge {
+
+    position: absolute;
+
+    top: 14px;
+
+    left: 14px;
+
+    padding: 5px 8px;
+
+    background: var(--royal-blue);
+
+    color: var(--silver-light);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   PRODUCT CONTENT
+========================================= */
+
+.product-content {
+
+    padding: 18px;
+
+}
+
+
+.product-category {
+
+    color: var(--silver-dark);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+.product-content h5 {
+
+    color: var(--royal-blue-dark);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    margin: 5px 0 13px;
+
+}
+
+
+.product-bottom {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.product-bottom strong {
+
+    color: var(--royal-blue);
+
+    font-size: 14px;
+
+}
+
+
+.view-product {
+
+    width: 28px;
+
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #f1f3f7;
+
+    color: var(--royal-blue);
+
+    font-size: 12px;
+
+    transition: .2s;
+
+}
+
+
+.luxury-product-card:hover .view-product {
+
+    background: var(--royal-blue);
+
+    color: var(--silver-light);
+
+}
+
+
+/* =========================================
+   COLLECTION LINK
+========================================= */
+
+.collection-link {
+
+    color: var(--royal-blue);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid var(--silver);
+
+    padding-bottom: 5px;
+
+}
+
+
+.collection-link:hover {
+
+    color: var(--royal-blue-light);
+
+}
+
+
+/* =========================================
+   EMPTY PRODUCTS
+========================================= */
+
+.empty-products {
+
+    text-align: center;
+
+    padding: 60px;
+
+}
+
+
+.empty-products i {
+
+    font-size: 35px;
+
+    color: var(--silver-dark);
+
+}
+
+
+.empty-products h4 {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    margin-top: 12px;
+
+}
+
+
+.empty-products p {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================
+   BRAND SECTION
+========================================= */
+
+.brand-section {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f2f4f8,
+            #ffffff
+        );
+
+    border-top: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.brand-title {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 48px;
+
+    line-height: .95;
+
+    font-weight: 600;
+
+    margin-bottom: 20px;
+
+}
+
+
+.brand-title em {
+
+    color: var(--silver-dark);
+
+    font-weight: 400;
+
+}
+
+
+.brand-text {
+
+    max-width: 500px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================================
+   EXPERIENCE GRID
+========================================= */
+
+.experience-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+}
+
+
+.experience-card {
+
+    padding: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+    transition: .25s ease;
+
+}
+
+
+.experience-card:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(6,19,47,.08);
+
+}
+
+
+.experience-card i {
+
+    font-size: 22px;
+
+    color: var(--royal-blue);
+
+}
+
+
+.experience-card h5 {
+
+    color: var(--royal-blue-dark);
+
+    font-size: 14px;
+
+    margin: 15px 0 7px;
+
+}
+
+
+.experience-card p {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    margin: 0;
+
+}
+
+
+/* =========================================
+   CATEGORY SECTION
+========================================= */
+
+.category-section {
+
+    background: #ffffff;
+
+}
+
+
+.luxury-category-card {
+
+    min-height: 180px;
+
+    padding: 25px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--royal-blue-dark),
+            var(--royal-blue)
+        );
+
+    transition: .3s ease;
+
+}
+
+
+.luxury-category-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+
+    height: 130px;
+
+    border-radius: 50%;
+
+    right: -55px;
+
+    bottom: -55px;
+
+    border: 1px solid rgba(192,192,192,.18);
+
+}
+
+
+.luxury-category-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 18px 35px rgba(6,19,47,.16);
+
+}
+
+
+.category-number {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 18px;
+
+    color: rgba(232,232,232,.4);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 25px;
+
+}
+
+
+.category-icon {
+
+    width: 43px;
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(255,255,255,.08);
+
+    color: var(--silver-light);
+
+    font-size: 17px;
+
+}
+
+
+.luxury-category-card h5 {
+
+    color: #ffffff;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 22px;
+
+    margin: 22px 0 12px;
+
+}
+
+
+/* =========================================
+   CTA
+========================================= */
+
+.luxury-cta {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 90px 20px;
+
+    background:
+        linear-gradient(
+            120deg,
+            var(--royal-blue-dark),
+            var(--royal-blue)
+        );
+
+}
+
+
+.luxury-cta::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    border-radius: 50%;
+
+    left: -250px;
+
+    top: -250px;
+
+    border: 1px solid rgba(192,192,192,.12);
+
+}
+
+
+.luxury-cta::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+
+    height: 350px;
+
+    border-radius: 50%;
+
+    right: -180px;
+
+    bottom: -180px;
+
+    border: 1px solid rgba(192,192,192,.12);
+
+}
+
+
+.luxury-cta .container {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.cta-eyebrow {
+
+    color: var(--silver);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+}
+
+
+.luxury-cta h2 {
+
+    color: #ffffff;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 50px;
+
+    font-weight: 500;
+
+    margin: 10px 0;
+
+}
+
+
+.luxury-cta h2 em {
+
+    color: var(--silver);
+
+}
+
+
+.luxury-cta p:not(.cta-eyebrow) {
+
+    color: #d9dde5;
+
+    font-size: 13px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.cta-btn {
+
+    padding: 13px 25px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .luxury-hero {
+
+        min-height: 590px;
+
+    }
+
+
+    .hero-content {
+
+        padding: 70px 20px;
+
+    }
+
+
+    .hero-content h1 {
+
+        font-size: 48px;
+
+    }
+
+
+    .section-heading h2 {
+
+        font-size: 36px;
+
+    }
+
+
+    .brand-title {
+
+        font-size: 40px;
+
+    }
+
+
+    .experience-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .luxury-cta {
+
+        padding: 70px 20px;
+
+    }
+
+
+    .luxury-cta h2 {
+
+        font-size: 40px;
+
+    }
+
+
+    /* Shree Vagheswari Jewellers AI */
+
+    .ai-925Silver-card {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 28px;
+
+    }
+
+
+    .ai-925Silver-content h2 {
+
+        font-size: 32px;
+
+    }
+
+
+    .ai-925Silver-product-image {
+
+        height: 220px;
+
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .luxury-hero {
+
+        min-height: 560px;
+
+    }
+
+
+    .hero-content {
+
+        padding: 60px 15px;
+
+    }
+
+
+    .hero-content h1 {
+
+        font-size: 42px;
+
+    }
+
+
+    .hero-description {
+
+        font-size: 12px;
+
+    }
+
+
+    .product-image {
+
+        height: 190px;
+
+    }
+
+
+    .product-content {
+
+        padding: 14px;
+
+    }
+
+
+    .product-content h5 {
+
+        font-size: 17px;
+
+    }
+
+
+    .brand-title {
+
+        font-size: 36px;
+
+    }
+
+
+    .luxury-category-card {
+
+        min-height: 160px;
+
+        padding: 20px;
+
+    }
+
+
+    /* Shree Vagheswari Jewellers AI */
+
+    .ai-925Silver-card {
+
+        padding: 22px;
+
+    }
+
+
+    .ai-925Silver-icon {
+
+        width: 60px;
+
+        height: 60px;
+
+        font-size: 23px;
+
+    }
+
+
+    .ai-925Silver-content h2 {
+
+        font-size: 28px;
+
+    }
+
+
+    .ai-925Silver-message {
+
+        font-size: 12px;
+
+    }
+
+
+    .ai-925Silver-product-image {
+
+        height: 180px;
+
+    }
+
+
+    .ai-925Silver-product-content {
+
+        padding: 14px;
+
+    }
+
+
+    .ai-925Silver-product-content h4 {
+
+        font-size: 20px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================
+     Shree Vagheswari Jewellers AI VOICE
+========================================= -->
+
+<script>
+
+function speakRecommendation() {
+
+    const messageElement =
+        document.getElementById("aiMessage");
+
+    if (!messageElement) {
+        return;
+    }
+
+
+    const message =
+        messageElement.innerText.trim();
+
+    if (!message) {
+        return;
+    }
+
+
+    /* Stop existing speech */
+
+    window.speechSynthesis.cancel();
+
+
+    /* Create speech */
+
+    const speech =
+        new SpeechSynthesisUtterance(message);
+
+
+    speech.rate = 0.95;
+
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
+
+    /* Try to use an Indian English voice */
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+
+    const preferredVoice =
+        voices.find(voice =>
+            voice.lang === "en-IN"
+        ) ||
+        voices.find(voice =>
+            voice.lang.startsWith("en")
+        );
+
+
+    if (preferredVoice) {
+
+        speech.voice = preferredVoice;
+
+    }
+
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+</script>
+
+{% endblock %}

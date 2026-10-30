@@ -1,0 +1,1125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Shree Vagheswari Jewellers Jewels{% endblock %}
+
+{% block content %}
+
+<div class="product-detail-page">
+
+    <div class="container py-5">
+
+        <!-- =========================================
+             BREADCRUMB
+        ========================================== -->
+
+        <div class="product-breadcrumb mb-4">
+
+            <a href="{{ url_for('products.index') }}">
+                Collection
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span>
+                {{ product.category.name }}
+            </span>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span>
+                {{ product.name }}
+            </span>
+
+        </div>
+
+
+        <div class="row g-5 align-items-center">
+
+
+            <!-- =========================================
+                 PRODUCT IMAGE
+            ========================================== -->
+
+           <!-- =================================
+     PRODUCT VISUAL
+================================== -->
+
+<div class="col-lg-6">
+
+    <div class="detail-image">
+
+        {% if product.sku == 'RNG001' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/chain3.jpeg') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'RNG002' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/chain2.jpeg') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'EAR001' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/chain1.jpeg') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'EAR002' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/chain.webp') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'BRC001' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/bracelet2.webp') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'BRC002' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/bracelet1.jpeg') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'CHN001' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/bracelet3.jpeg') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'CHN002' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/bracelet4.webp') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'PND001' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/braclet.webp') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% elif product.sku == 'PEN002' %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/products/pendant.jpg') }}"
+                alt="{{ product.name }}"
+                class="product-detail-img"
+            >
+
+        {% else %}
+
+            <div class="product-detail-placeholder">
+                <i class="bi bi-gem"></i>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+            <!-- =========================================
+                 PRODUCT INFORMATION
+            ========================================== -->
+
+            <div class="col-lg-6">
+
+                <div class="product-information">
+
+
+                    <!-- Category -->
+
+                    <p class="eyebrow">
+
+                        {{ product.category.name }}
+
+                    </p>
+
+
+                    <!-- Product Name -->
+
+                    <h1>
+
+                        {{ product.name }}
+
+                    </h1>
+
+
+                    <!-- SKU -->
+
+                    <div class="product-code">
+
+                        SKU: {{ product.sku }}
+
+                    </div>
+
+
+                    <!-- Price -->
+
+                    <div class="detail-price">
+
+                        ₹{{ "%.2f"|format(product.price|float) }}
+
+                    </div>
+
+
+                    <!-- =====================================
+                         DESCRIPTION
+                    ====================================== -->
+
+                    {% if product.description %}
+
+                        <p class="detail-description">
+
+                            {{ product.description }}
+
+                        </p>
+
+                    {% else %}
+
+                        <p class="detail-description">
+
+                            A beautifully crafted jewellery piece
+                            designed with timeless elegance and
+                            exceptional attention to detail.
+
+                        </p>
+
+                    {% endif %}
+
+
+                    <!-- Divider -->
+
+                    <div class="detail-divider"></div>
+
+
+                    <!-- =====================================
+                         PRODUCT DETAILS
+                    ====================================== -->
+
+                    <div class="spec-heading">
+
+                        PRODUCT DETAILS
+
+                    </div>
+
+
+                    <div class="spec-grid">
+
+
+                        <!-- Metal -->
+
+                        <div class="spec-item">
+
+                            <span>
+
+                                <i class="bi bi-circle"></i>
+
+                                Metal
+
+                            </span>
+
+                            <strong>
+
+                                {{ product.metal_type or '—' }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Purity -->
+
+                        <div class="spec-item">
+
+                            <span>
+
+                                <i class="bi bi-award"></i>
+
+                                Purity
+
+                            </span>
+
+                            <strong>
+
+                                {{ product.purity or '—' }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Weight -->
+
+                        <div class="spec-item">
+
+                            <span>
+
+                                <i class="bi bi-speedometer2"></i>
+
+                                Weight
+
+                            </span>
+
+                            <strong>
+
+                                {{ product.weight or '—' }} g
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Making Charges -->
+
+                        <div class="spec-item">
+
+                            <span>
+
+                                <i class="bi bi-tools"></i>
+
+                                Making Charges
+
+                            </span>
+
+                            <strong>
+
+                                ₹{{ "%.2f"|format(
+                                    product.making_charge|float
+                                ) }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- GST -->
+
+                        <div class="spec-item">
+
+                            <span>
+
+                                <i class="bi bi-percent"></i>
+
+                                GST
+
+                            </span>
+
+                            <strong>
+
+                                {{ product.gst_rate }}%
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Availability -->
+
+                        <div class="spec-item">
+
+                            <span>
+
+                                <i class="bi bi-box-seam"></i>
+
+                                Availability
+
+                            </span>
+
+
+                            {% if product.stock_quantity > 0 %}
+
+                                <strong class="available">
+
+                                    <span></span>
+
+                                    In Stock
+                                    ({{ product.stock_quantity }})
+
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="unavailable">
+
+                                    Out of Stock
+
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         ADD TO CART
+                    ====================================== -->
+
+                    {% if product.stock_quantity > 0 %}
+
+<div class="purchase-area">
+
+    <form
+        method="POST"
+        action="{{ url_for('products.add_to_cart', product_id=product.id) }}"
+    >
+
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+        <button
+            type="submit"
+            class="btn btn-silver add-cart-btn"
+        >
+            <i class="bi bi-bag-plus me-2"></i>
+            Add to Cart
+        </button>
+
+    </form>
+
+</div>
+
+{% else %}
+
+<div class="out-stock-box">
+
+    <i class="bi bi-x-circle"></i>
+
+    <div>
+
+        <strong>
+            Currently Unavailable
+        </strong>
+
+        <small>
+            This piece is currently out of stock.
+        </small>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+                    <!-- =====================================
+                         TRUST INFORMATION
+                    ====================================== -->
+
+                    <div class="product-benefits">
+
+
+                        <!-- Quality -->
+
+                        <div>
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <span>
+
+                                Quality Assured
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- Craftsmanship -->
+
+                        <div>
+
+                            <i class="bi bi-gem"></i>
+
+                            <span>
+
+                                Fine Craftsmanship
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- Packaging -->
+
+                        <div>
+
+                            <i class="bi bi-box-seam"></i>
+
+                            <span>
+
+                                Secure Packaging
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     PAGE CSS
+====================================================== -->
+
+<style>
+
+/* =========================================
+   PRODUCT DETAIL PAGE
+========================================= */
+
+.product-detail-page {
+
+    min-height: calc(100vh - 80px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f6fa 0%,
+            #ffffff 50%,
+            #eef1f6 100%
+        );
+}
+
+
+/* =========================================
+   BREADCRUMB
+========================================= */
+
+.product-breadcrumb {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    flex-wrap: wrap;
+}
+
+
+.product-breadcrumb a {
+
+    color: var(--royal-blue);
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.product-breadcrumb i {
+
+    font-size: 8px;
+
+    color: var(--silver-dark);
+}
+
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.detail-image {
+
+    min-height: 570px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #e9ecf1,
+            #f7f8fa,
+            #dfe3e9
+        );
+
+    border: 1px solid #d8dde5;
+
+    box-shadow:
+        0 20px 50px rgba(6, 19, 47, .08);
+}
+
+
+/* =========================================
+   ACTUAL PRODUCT IMAGE
+========================================= */
+
+.product-detail-img {
+
+    width: 100%;
+
+    height: 570px;
+
+    object-fit: cover;
+
+    display: block;
+
+    position: relative;
+
+    z-index: 2;
+
+    transition:
+        transform .5s ease;
+}
+
+
+.product-detail-img:hover {
+
+    transform: scale(1.03);
+
+}
+
+
+/* =========================================
+   IMAGE PLACEHOLDER
+========================================= */
+
+.product-detail-placeholder {
+
+    width: 145px;
+
+    height: 145px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--royal-blue),
+            var(--royal-blue-dark)
+        );
+
+    color: var(--silver-light);
+
+    font-size: 55px;
+
+    box-shadow:
+        0 25px 55px rgba(6,19,47,.25);
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.product-detail-placeholder::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 10px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,.2);
+}
+
+
+/* =========================================
+   PRODUCT INFORMATION
+========================================= */
+
+.product-information {
+
+    padding: 10px 10px 10px 15px;
+}
+
+
+.product-information .eyebrow {
+
+    color: var(--silver-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 7px;
+}
+
+
+.product-information h1 {
+
+    color: var(--royal-blue-dark);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: clamp(42px, 5vw, 58px);
+
+    line-height: 1;
+
+    font-weight: 600;
+
+    margin: 0 0 8px;
+}
+
+
+/* =========================================
+   SKU
+========================================= */
+
+.product-code {
+
+    color: var(--muted);
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: .5px;
+}
+
+
+/* =========================================
+   PRICE
+========================================= */
+
+.detail-price {
+
+    color: var(--royal-blue);
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+    margin: 22px 0 15px;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.detail-description {
+
+    max-width: 550px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.detail-divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    background: var(--border);
+
+    margin: 22px 0;
+}
+
+
+/* =========================================
+   SPECIFICATION HEADING
+========================================= */
+
+.spec-heading {
+
+    color: var(--royal-blue-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================
+   SPECIFICATION GRID
+========================================= */
+
+.spec-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    border-top: 1px solid var(--border);
+
+    border-left: 1px solid var(--border);
+}
+
+
+.spec-item {
+
+    min-height: 65px;
+
+    padding: 11px 13px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    background: rgba(255,255,255,.65);
+
+    border-right: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.spec-item span {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .7px;
+}
+
+
+.spec-item span i {
+
+    color: var(--royal-blue);
+
+    margin-right: 4px;
+}
+
+
+.spec-item strong {
+
+    color: var(--royal-blue-dark);
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   AVAILABLE
+========================================= */
+
+.available {
+
+    color: var(--royal-blue) !important;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.available span {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--royal-blue);
+}
+
+
+/* =========================================
+   UNAVAILABLE
+========================================= */
+
+.unavailable {
+
+    color: var(--silver-dark) !important;
+}
+
+
+/* =========================================
+   PURCHASE AREA
+========================================= */
+
+.purchase-area {
+
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   ADD TO CART BUTTON
+========================================= */
+
+.add-cart-btn {
+
+    min-width: 210px;
+
+    padding: 13px 25px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: all .25s ease;
+}
+
+
+.add-cart-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(6,19,47,.18);
+}
+
+
+/* =========================================
+   OUT OF STOCK
+========================================= */
+
+.out-stock-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    background: #f1f3f7;
+
+    border: 1px solid var(--border);
+}
+
+
+.out-stock-box > i {
+
+    color: var(--silver-dark);
+
+    font-size: 23px;
+}
+
+
+.out-stock-box strong {
+
+    display: block;
+
+    color: var(--royal-blue-dark);
+
+    font-size: 12px;
+}
+
+
+.out-stock-box small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    margin-top: 3px;
+}
+
+
+/* =========================================
+   PRODUCT BENEFITS
+========================================= */
+
+.product-benefits {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+    margin-top: 28px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+.product-benefits div {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+.product-benefits i {
+
+    color: var(--royal-blue);
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 992px) {
+
+    .detail-image {
+
+        min-height: 480px;
+
+    }
+
+
+    .product-detail-img {
+
+        height: 480px;
+
+    }
+
+
+    .product-information {
+
+        padding: 0;
+
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .product-detail-page .container {
+
+        padding-left: 15px;
+
+        padding-right: 15px;
+
+    }
+
+
+    .detail-image {
+
+        min-height: 370px;
+
+    }
+
+
+    .product-detail-img {
+
+        height: 370px;
+
+    }
+
+
+    .product-detail-placeholder {
+
+        width: 110px;
+
+        height: 110px;
+
+        font-size: 42px;
+
+    }
+
+
+    .product-information h1 {
+
+        font-size: 40px;
+
+    }
+
+
+    .spec-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .product-benefits {
+
+        gap: 12px;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}

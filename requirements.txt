@@ -1,0 +1,13 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-Migrate
+Flask-WTF
+PyMySQL
+python-dotenv
+Werkzeug
+Pillow
+ReportLab
+pytest
+Flask-Limiter
+gunicorn

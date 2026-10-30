@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Payment | Shree Vagheshwari Jewellery{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="fw-bold mb-1">Payment</h2>
+
+    <p class="text-muted mb-4">
+        Choose your preferred payment method
+    </p>
+
+    <div class="row g-4">
+
+        <!-- PAYMENT METHODS -->
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Select Payment Method
+                    </h4>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('products.payment') }}"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <!-- UPI QR PAYMENT -->
+                        <div class="form-check border rounded p-3 mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="payment_method"
+                                value="UPI_QR"
+                                id="upi_qr"
+                                required
+                            >
+
+                            <label
+                                class="form-check-label w-100"
+                                for="upi_qr"
+                            >
+
+                                <strong>
+                                    <i class="bi bi-qr-code-scan me-2"></i>
+                                    UPI QR Payment
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    Scan the QR code using Google Pay,
+                                    PhonePe, Paytm, BHIM or another UPI app.
+                                </small>
+
+                            </label>
+
+                        </div>
+
+                        <!-- COD -->
+                        <div class="form-check border rounded p-3 mb-4">
+
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="payment_method"
+                                value="COD"
+                                id="cod"
+                            >
+
+                            <label
+                                class="form-check-label w-100"
+                                for="cod"
+                            >
+
+                                <strong>
+                                    <i class="bi bi-cash-stack me-2"></i>
+                                    Cash on Delivery
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    Pay when your order arrives.
+                                </small>
+
+                            </label>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100 py-3"
+                        >
+
+                            <i class="bi bi-lock me-2"></i>
+
+                            Continue to Payment
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDER SUMMARY -->
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Order Summary
+                    </h4>
+
+
+                    <!-- SUBTOTAL -->
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(subtotal) }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- DISCOUNT -->
+                    {% if discount and discount > 0 %}
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span class="text-success">
+                            Discount
+                        </span>
+
+                        <span class="text-success">
+                            -₹{{ "%.2f"|format(discount) }}
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- MAKING CHARGES -->
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>
+                            Making Charges
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(making_charges) }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- GST -->
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>
+                            GST
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(gst) }}
+                        </span>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <!-- TOTAL -->
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <strong>
+                            Total
+                        </strong>
+
+                        <strong class="fs-4">
+                            ₹{{ "%.2f"|format(total) }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

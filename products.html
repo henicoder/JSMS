@@ -1,0 +1,1291 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Products | Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="product-page">
+
+    <div class="container-fluid px-lg-5 py-5">
+
+        <!-- ================================
+             PAGE HEADER
+        ================================= -->
+
+        <div class="product-header mb-5">
+
+            <div>
+                <p class="eyebrow mb-2">JEWELLERY MANAGEMENT</p>
+
+                <h1 class="page-title">
+                    Products
+                </h1>
+
+                <p class="page-subtitle">
+                    Manage your jewellery collection, pricing and inventory.
+                </p>
+            </div>
+
+            <div class="product-count">
+
+                <span class="count-icon">
+                    <i class="bi bi-gem"></i>
+                </span>
+
+                <div>
+                    <small>Total Products</small>
+                    <strong>{{ products|length }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- =================================
+                 PRODUCT LIST
+            ================================== -->
+
+            <div class="col-xl-8">
+
+                <div class="product-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <p class="panel-eyebrow">
+                                COLLECTION
+                            </p>
+
+                            <h4>
+                                Jewellery Products
+                            </h4>
+
+                        </div>
+
+                        <div class="panel-icon">
+                            <i class="bi bi-grid-3x3-gap"></i>
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+
+                        <table class="table product-table align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>SKU</th>
+
+                                    <th>Product</th>
+
+                                    <th>Category</th>
+
+                                    <th>Price</th>
+
+                                    <th>Stock</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for p in products %}
+
+                                <tr>
+
+                                    <!-- SKU -->
+
+                                    <td>
+
+                                        <span class="sku">
+                                            {{ p.sku }}
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Product -->
+
+                                    <td>
+
+                                        <div class="product-info">
+
+                                            <div class="product-icon">
+
+                                                <i class="bi bi-gem"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    {{ p.name }}
+                                                </strong>
+
+                                                <small>
+                                                    {{ p.metal_type or 'Fine Jewellery' }}
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- Category -->
+
+                                    <td>
+
+                                        <span class="category-badge">
+
+                                            <i class="bi bi-tag me-1"></i>
+
+                                            {{ p.category.name }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Price -->
+
+                                    <td>
+
+                                        <strong class="price">
+
+                                            ₹{{ "%.0f"|format(p.price|float) }}
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- Stock -->
+
+                                    <td>
+
+                                        {% if p.stock_quantity <= p.low_stock_threshold %}
+
+                                            <span class="stock-badge low-stock">
+
+                                                <i class="bi bi-exclamation-circle"></i>
+
+                                                {{ p.stock_quantity }}
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="stock-badge">
+
+                                                <i class="bi bi-check-circle"></i>
+
+                                                {{ p.stock_quantity }}
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+
+                                {% else %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        class="empty-products"
+                                    >
+
+                                        <div>
+
+                                            <div class="empty-icon">
+                                                <i class="bi bi-gem"></i>
+                                            </div>
+
+                                            <h5>
+                                                No Products Found
+                                            </h5>
+
+                                            <p>
+                                                Add your first jewellery product
+                                                using the form.
+                                            </p>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ADD PRODUCT
+            ================================== -->
+
+            <div class="col-xl-4">
+
+                <div class="add-product-panel">
+
+                    <div class="add-header">
+
+                        <div>
+
+                            <p class="panel-eyebrow">
+                                CATALOGUE
+                            </p>
+
+                            <h4>
+                                Add Product
+                            </h4>
+
+                        </div>
+
+                        <div class="add-icon">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
+
+                    </div>
+
+
+                    <form method="post">
+
+
+                        <!-- SKU -->
+
+                        <div class="form-group">
+
+                            <label>
+                                SKU
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-upc-scan"></i>
+
+                                <input
+                                    type="text"
+                                    name="sku"
+                                    placeholder="e.g. LJ-RG-001"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Product Name -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Product Name
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-gem"></i>
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Enter product name"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Category -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Category
+                            </label>
+
+                            <div class="luxury-input select-wrapper">
+
+                                <i class="bi bi-grid"></i>
+
+                                <select
+                                    name="category_id"
+                                    required
+                                >
+
+                                    {% for c in categories %}
+
+                                    <option value="{{ c.id }}">
+                                        {{ c.name }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Price -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Price
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-currency-rupee"></i>
+
+                                <input
+                                    type="number"
+                                    name="price"
+                                    step="0.01"
+                                    min="0"
+                                    placeholder="Product price"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Metal -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Metal Type
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-circle"></i>
+
+                                <input
+                                    type="text"
+                                    name="metal_type"
+                                    placeholder="Silver, Platinum..."
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Purity -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Purity
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-award"></i>
+
+                                <input
+                                    type="text"
+                                    name="purity"
+                                    placeholder="22K, 18K, 925..."
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Making Charge -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Making Charge
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-tools"></i>
+
+                                <input
+                                    type="number"
+                                    name="making_charge"
+                                    step="0.01"
+                                    min="0"
+                                    placeholder="Making charge"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- GST -->
+
+                        <div class="form-group">
+
+                            <label>
+                                GST Rate (%)
+                            </label>
+
+                            <div class="luxury-input">
+
+                                <i class="bi bi-percent"></i>
+
+                                <input
+                                    type="number"
+                                    name="gst_rate"
+                                    step="0.01"
+                                    min="0"
+                                    value="3"
+                                    placeholder="GST rate"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Stock -->
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Stock
+                                </label>
+
+                                <div class="luxury-input">
+
+                                    <i class="bi bi-box-seam"></i>
+
+                                    <input
+                                        type="number"
+                                        name="stock_quantity"
+                                        value="1"
+                                        min="0"
+                                        placeholder="Stock"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Threshold -->
+
+                            <div class="form-group">
+
+                                <label>
+                                    Low Stock Alert
+                                </label>
+
+                                <div class="luxury-input">
+
+                                    <i class="bi bi-exclamation-triangle"></i>
+
+                                    <input
+                                        type="number"
+                                        name="low_stock_threshold"
+                                        value="3"
+                                        min="0"
+                                        placeholder="Threshold"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Submit -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-silver add-product-btn"
+                        >
+
+                            <i class="bi bi-plus-circle me-2"></i>
+
+                            Add Product
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* =========================================
+   PRODUCT PAGE
+========================================= */
+
+.product-page {
+
+    min-height: calc(100vh - 80px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f6fa 0%,
+            #ffffff 50%,
+            #eef1f6 100%
+        );
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.product-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+}
+
+
+.page-title {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 48px;
+
+    font-weight: 600;
+
+    margin: 0;
+
+}
+
+
+.page-subtitle {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-top: 7px;
+
+}
+
+
+.product-count {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 18px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+}
+
+
+.count-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--royal-blue);
+
+    color: var(--silver-light);
+
+}
+
+
+.product-count small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+.product-count strong {
+
+    display: block;
+
+    color: var(--royal-blue);
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================
+   PANELS
+========================================= */
+
+.product-panel,
+.add-product-panel {
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 10px 35px rgba(6,19,47,.06);
+
+}
+
+
+.panel-header,
+.add-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 24px 25px;
+
+    border-bottom: 1px solid #edf0f4;
+
+}
+
+
+.panel-eyebrow {
+
+    color: var(--silver-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.panel-header h4,
+.add-header h4 {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+    margin: 0;
+
+}
+
+
+.panel-icon,
+.add-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--royal-blue);
+
+    color: var(--silver-light);
+
+}
+
+
+.add-icon {
+
+    background: #f1f3f7;
+
+    color: var(--royal-blue);
+
+}
+
+
+/* =========================================
+   PRODUCT TABLE
+========================================= */
+
+.product-table {
+
+    margin: 0;
+
+}
+
+
+.product-table thead th {
+
+    padding: 15px 20px;
+
+    background: #fafbfc;
+
+    color: #7b8390;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-weight: 600;
+
+}
+
+
+.product-table tbody td {
+
+    padding: 16px 20px;
+
+    border-bottom: 1px solid #edf0f4;
+
+    color: var(--ink);
+
+}
+
+
+.product-table tbody tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+
+.product-table tbody tr {
+
+    transition: background .2s ease;
+
+}
+
+
+.product-table tbody tr:hover {
+
+    background: #fafbfd;
+
+}
+
+
+/* =========================================
+   SKU
+========================================= */
+
+.sku {
+
+    display: inline-block;
+
+    padding: 5px 8px;
+
+    background: #f1f3f7;
+
+    color: var(--royal-blue);
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   PRODUCT INFO
+========================================= */
+
+.product-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+}
+
+
+.product-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1f3f7,
+            #e5e8ee
+        );
+
+    color: var(--royal-blue);
+
+}
+
+
+.product-info strong {
+
+    display: block;
+
+    color: var(--royal-blue-dark);
+
+    font-size: 12px;
+
+}
+
+
+.product-info small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    margin-top: 3px;
+
+}
+
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+.category-badge {
+
+    display: inline-block;
+
+    padding: 6px 9px;
+
+    background: #f5f6f8;
+
+    color: #687080;
+
+    font-size: 9px;
+
+    border: 1px solid #e4e7ec;
+
+}
+
+
+/* =========================================
+   PRICE
+========================================= */
+
+.price {
+
+    color: var(--royal-blue);
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================
+   STOCK
+========================================= */
+
+.stock-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 6px 9px;
+
+    background: #f1f3f7;
+
+    color: var(--royal-blue);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.low-stock {
+
+    color: #687080;
+
+    background: #e9ebef;
+
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-products {
+
+    padding: 55px 20px !important;
+
+    text-align: center;
+
+}
+
+
+.empty-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    margin: 0 auto 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #f1f3f7;
+
+    color: var(--silver-dark);
+
+    font-size: 23px;
+
+}
+
+
+.empty-products h5 {
+
+    color: var(--royal-blue);
+
+    font-size: 16px;
+
+}
+
+
+.empty-products p {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin: 0;
+
+}
+
+
+/* =========================================
+   ADD PRODUCT FORM
+========================================= */
+
+.add-product-panel {
+
+    padding-bottom: 25px;
+
+}
+
+
+.add-product-panel form {
+
+    padding: 25px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 15px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--royal-blue-dark);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   LUXURY INPUT
+========================================= */
+
+.luxury-input {
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid #d8dde5;
+
+    background: #ffffff;
+
+    transition: all .25s ease;
+
+}
+
+
+.luxury-input:focus-within {
+
+    border-color: var(--royal-blue-light);
+
+    box-shadow:
+        0 0 0 3px rgba(22,59,130,.07);
+
+}
+
+
+.luxury-input > i {
+
+    width: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--royal-blue);
+
+    font-size: 14px;
+
+}
+
+
+.luxury-input input,
+.luxury-input select {
+
+    flex: 1;
+
+    width: 100%;
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--ink);
+
+    font-size: 11px;
+
+    padding-right: 10px;
+
+}
+
+
+.luxury-input input::placeholder {
+
+    color: #a3a9b3;
+
+}
+
+
+.luxury-input select {
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================
+   TWO COLUMN FORM
+========================================= */
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+}
+
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.add-product-btn {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: .3px;
+
+    transition: all .25s ease;
+
+}
+
+
+.add-product-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(6,19,47,.16);
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 992px) {
+
+    .product-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .product-page .container-fluid {
+
+        padding-left: 15px !important;
+
+        padding-right: 15px !important;
+
+    }
+
+    .page-title {
+
+        font-size: 38px;
+
+    }
+
+    .product-count {
+
+        width: 100%;
+
+    }
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+    }
+
+    .product-table {
+
+        min-width: 700px;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}

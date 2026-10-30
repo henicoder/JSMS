@@ -1,0 +1,1796 @@
+{% extends "base.html" %}
+
+{% block title %}Shop | Shree Vagheswari Jewellers Jewels{% endblock %}
+
+{% block content %}
+
+<!-- ============================= -->
+<!-- SHOP HERO -->
+<!-- ============================= -->
+
+<section class="shop-hero">
+    <div class="container">
+        <div class="shop-hero-content">
+            <p class="eyebrow">THE COLLECTION</p>
+            <h1>Shop Jewellery</h1>
+            <p>
+                Discover timeless pieces crafted to celebrate
+                your most precious moments.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================= -->
+<!-- SHOP CONTENT -->
+<!-- ============================= -->
+
+<div class="container py-5">
+
+    <!-- SECTION HEADING -->
+
+    <div class="section-heading shop-heading">
+        <div>
+            <p class="eyebrow">DISCOVER</p>
+            <h2>Our Jewellery Collection</h2>
+            <p class="text-muted">
+                Explore elegant designs crafted with precision and care.
+            </p>
+        </div>
+
+        <div class="collection-count">
+            <span>{{ products|length }}</span>
+            <small>Products</small>
+        </div>
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- SEARCH & FILTER -->
+    <!-- ============================= -->
+
+    <div class="shop-filter-card">
+
+        <form method="get" class="row g-3 align-items-end">
+
+            <!-- SEARCH -->
+
+            <div class="col-lg-6">
+
+                <label class="filter-label">
+                    <i class="bi bi-search me-1"></i>
+                    Search Jewellery
+                </label>
+
+                <div class="shop-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request.args.get('q', '') }}"
+                        class="form-control"
+                        placeholder="Search by name, SKU or metal..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="col-lg-4">
+
+                <label class="filter-label">
+                    <i class="bi bi-grid me-1"></i>
+                    Category
+                </label>
+
+                <select
+                    name="category"
+                    class="form-select shop-select"
+                >
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+                    {% for c in categories %}
+
+                    <option
+                        value="{{ c.id }}"
+                        {% if request.args.get('category')|int == c.id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ c.name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- SEARCH BUTTON -->
+
+            <div class="col-lg-2">
+
+                <button
+                    type="submit"
+                    class="btn btn-silver w-100 filter-btn"
+                >
+                    <i class="bi bi-search me-2"></i>
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- ACTIVE FILTER -->
+    <!-- ============================= -->
+
+    {% if request.args.get('q') or request.args.get('category') %}
+
+    <div class="active-filter">
+
+        <div>
+
+            <i class="bi bi-funnel-fill me-2"></i>
+
+            <strong>Filters applied</strong>
+
+            {% if request.args.get('q') %}
+
+            <span class="filter-chip">
+                Search:
+                {{ request.args.get('q') }}
+            </span>
+
+            {% endif %}
+
+
+            {% if request.args.get('category') %}
+
+            <span class="filter-chip">
+                Category selected
+            </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <a
+            href="{{ url_for('products.index') }}"
+            class="clear-filter"
+        >
+            Clear Filters
+        </a>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ============================= -->
+    <!-- PRODUCT GRID -->
+    <!-- ============================= -->
+
+    <div class="row g-4 mt-2">
+
+        {% for p in products %}
+
+        <div class="col-6 col-md-4 col-lg-3">
+
+            <div class="shop-product-card h-100">
+
+
+                <!-- ============================= -->
+                <!-- PRODUCT IMAGE -->
+                <!-- ============================= -->
+
+                <div class="shop-product-image">
+
+                    {% if p.sku == 'RNG001' %}
+
+                    <!-- Ring 1 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/chain3.jpeg') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'RNG002' %}
+
+                    <!-- Ring 2 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/chain2.jpeg') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'EAR001' %}
+
+                    <!-- Earrings -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/chain1.jpeg') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'EAR002' %}
+
+                    <!-- Chain -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/chain.webp') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'BRC001' %}
+
+                    <!-- Bracelet 2 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/bracelet2.webp') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'BRC002' %}
+
+                    <!-- Bracelet 1 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/bracelet1.jpeg') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'CHN001' %}
+
+                    <!-- Bracelet 3 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/bracelet3.jpeg') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    <!-- ============================= -->
+                    <!-- LAST 3 IMAGES ADDED -->
+                    <!-- ============================= -->
+
+                    {% elif p.sku == 'CHN002' %}
+
+                    <!-- Bracelet 4 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/bracelet4.webp') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                    {% elif p.sku == 'PND001' %}
+
+                    <!-- Bracelet 5 -->
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/products/braclet.webp') }}"
+                        alt="{{ p.name }}"
+                        class="product-image"
+                    >
+
+
+                   {% elif p.sku == 'PEN002' %}
+    <!-- Pendant -->
+    <img
+        src="{{ url_for('static', filename='uploads/products/pendant.jpg') }}"
+        alt="{{ p.name }}"
+        class="product-image"
+    >
+    {% elif p.sku == 'PEN002' %}    
+
+    
+{% else %}
+    <!-- NO IMAGE -->
+    <div class="product-image-placeholder">
+        <i class="bi bi-gem"></i>
+    </div>
+{% endif %}
+
+
+                    <!-- ============================= -->
+                    <!-- STOCK BADGE -->
+                    <!-- ============================= -->
+
+                    {% if p.stock_quantity <= p.low_stock_threshold %}
+
+                    <span class="stock-badge low-stock">
+
+                        <i class="bi bi-exclamation-circle me-1"></i>
+
+                        Low Stock
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="stock-badge">
+
+                        <i class="bi bi-check-circle me-1"></i>
+
+                        In Stock
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- PRODUCT INFO -->
+                <!-- ============================= -->
+
+                <div class="shop-product-info">
+
+
+                    <!-- METAL + PURITY -->
+
+                    <div class="product-meta">
+
+                        {{ p.metal_type }}
+
+                        <span>·</span>
+
+                        {{ p.purity }}
+
+                    </div>
+
+
+                    <!-- PRODUCT NAME -->
+
+                    <h5>
+                        {{ p.name }}
+                    </h5>
+
+
+                    <!-- PRICE -->
+
+                    <div class="product-price">
+
+                        ₹{{ "%.2f"|format(p.price|float) }}
+
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    <div
+                        class="product-stock
+                        {% if p.stock_quantity <= p.low_stock_threshold %}
+                            stock-danger
+                        {% else %}
+                            stock-success
+                        {% endif %}"
+                    >
+
+                        <i
+                            class="bi
+                            {% if p.stock_quantity <= p.low_stock_threshold %}
+                                bi-exclamation-triangle
+                            {% else %}
+                                bi-box-seam
+                            {% endif %}
+                            me-1"
+                        ></i>
+
+                        {{ p.stock_quantity }}
+
+                        available
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- ACTIONS -->
+                    <!-- ============================= -->
+
+                    <div class="product-actions">
+
+                        {% if p.stock_quantity > 0 %}
+
+                        <!-- ADD TO CART -->
+
+                        <button
+                            type="button"
+                            class="btn btn-silver product-cart-btn"
+                            onclick="addProductToCart(
+                                {{ p.id }},
+                                this,
+                                '{{ url_for(
+                                    'products.add_to_cart',
+                                    product_id=p.id
+                                ) }}'
+                            )"
+                        >
+
+                            <i class="bi bi-bag-plus me-2"></i>
+
+                            Add to Cart
+
+                        </button>
+
+                        {% else %}
+
+                        <!-- OUT OF STOCK -->
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary product-cart-btn"
+                            disabled
+                        >
+
+                            <i class="bi bi-x-circle me-2"></i>
+
+                            Out of Stock
+
+                        </button>
+
+                        {% endif %}
+
+
+                        <!-- VIEW DETAILS -->
+
+                        <a
+                            href="{{ url_for(
+                                'products.detail',
+                                product_id=p.id
+                            ) }}"
+                            class="btn btn-outline-silver product-view-btn"
+                        >
+
+                            View Details
+
+                            <i class="bi bi-arrow-right ms-2"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+
+        <!-- ============================= -->
+        <!-- EMPTY STATE -->
+        <!-- ============================= -->
+
+        <div class="col-12">
+
+            <div class="empty-shop">
+
+                <div class="empty-icon">
+
+                    <i class="bi bi-gem"></i>
+
+                </div>
+
+                <h3>
+                    No Jewellery Found
+                </h3>
+
+                <p>
+                    We couldn't find any products matching
+                    your search.
+                    Try another keyword or browse all categories.
+                </p>
+
+                <a
+                    href="{{ url_for('products.index') }}"
+                    class="btn btn-silver"
+                >
+
+                    <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+                    View All Jewellery
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- SHOP PAGE CSS -->
+<!-- ============================= -->
+
+<style>
+
+.product-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 12px;
+
+}
+
+.product-cart-btn,
+.product-view-btn {
+
+    width: 100%;
+
+    padding: 10px 12px;
+
+    font-size: 11px;
+
+    letter-spacing: .5px;
+
+}
+
+.product-cart-btn {
+
+    border: 1px solid var(--royal-blue);
+
+}
+
+.product-cart-btn:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(6,19,47,.12);
+
+}
+
+.product-cart-btn.loading {
+
+    pointer-events: none;
+
+    opacity: .7;
+
+}
+
+
+/* =========================================
+   SHOP HERO
+========================================= */
+
+.shop-hero {
+
+    position: relative;
+
+    padding: 85px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(6,19,47,.98),
+            rgba(11,31,77,.94),
+            rgba(22,59,130,.90)
+        );
+
+    overflow: hidden;
+
+}
+
+.shop-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+
+    height: 420px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(192,192,192,.15);
+
+    right: -120px;
+
+    top: -160px;
+
+}
+
+.shop-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+
+    height: 260px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(232,232,232,.10);
+
+    left: -100px;
+
+    bottom: -150px;
+
+}
+
+.shop-hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 700px;
+
+}
+
+.shop-hero .eyebrow {
+
+    color: var(--silver);
+
+    letter-spacing: 4px;
+
+    font-weight: 600;
+
+    font-size: 12px;
+
+}
+
+.shop-hero h1 {
+
+    color: var(--white);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(48px, 6vw, 72px);
+
+    font-weight: 500;
+
+    margin: 8px 0 12px;
+
+}
+
+.shop-hero p:last-child {
+
+    color:
+        rgba(255,255,255,.72);
+
+    max-width: 560px;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.shop-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: end;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+
+}
+
+.shop-heading h2 {
+
+    color: var(--royal-blue);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 42px;
+
+    font-weight: 600;
+
+    margin-bottom: 5px;
+
+}
+
+.shop-heading .eyebrow {
+
+    color: var(--silver-dark);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 5px;
+
+}
+
+.collection-count {
+
+    min-width: 100px;
+
+    text-align: center;
+
+    padding: 13px 18px;
+
+    background: #f5f7fa;
+
+    border:
+        1px solid var(--border);
+
+}
+
+.collection-count span {
+
+    display: block;
+
+    color: var(--royal-blue);
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+}
+
+.collection-count small {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =========================================
+   FILTER CARD
+========================================= */
+
+.shop-filter-card {
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 12px 35px rgba(6,19,47,.06);
+
+}
+
+.filter-label {
+
+    display: block;
+
+    color: var(--royal-blue-dark);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+}
+
+.filter-label i {
+
+    color: var(--royal-blue);
+
+}
+
+.shop-search {
+
+    position: relative;
+
+}
+
+.shop-search > i {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--royal-blue);
+
+    z-index: 2;
+
+}
+
+.shop-search input {
+
+    height: 48px;
+
+    padding-left: 43px;
+
+    border:
+        1px solid #d8dde5;
+
+    border-radius: 0;
+
+}
+
+.shop-search input:focus {
+
+    border-color:
+        var(--royal-blue-light);
+
+    box-shadow:
+        0 0 0 3px rgba(22,59,130,.08);
+
+}
+
+.shop-select {
+
+    height: 48px;
+
+    border-radius: 0;
+
+    border:
+        1px solid #d8dde5;
+
+    color: var(--ink);
+
+}
+
+.shop-select:focus {
+
+    border-color:
+        var(--royal-blue-light);
+
+    box-shadow:
+        0 0 0 3px rgba(22,59,130,.08);
+
+}
+
+.filter-btn {
+
+    height: 48px;
+
+}
+
+
+/* =========================================
+   ACTIVE FILTER
+========================================= */
+
+.active-filter {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 13px 18px;
+
+    margin-bottom: 20px;
+
+    background: #f5f7fa;
+
+    border-left:
+        3px solid var(--royal-blue);
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+.active-filter strong {
+
+    color: var(--royal-blue-dark);
+
+}
+
+.filter-chip {
+
+    display: inline-block;
+
+    margin-left: 8px;
+
+    padding: 5px 9px;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    color: var(--royal-blue);
+
+    font-size: 11px;
+
+}
+
+.clear-filter {
+
+    color: var(--royal-blue);
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+}
+
+.clear-filter:hover {
+
+    color:
+        var(--royal-blue-light);
+
+}
+
+
+/* =========================================
+   PRODUCT CARD
+========================================= */
+
+.shop-product-card {
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    transition:
+        all .35s ease;
+
+    overflow: hidden;
+
+    position: relative;
+
+}
+
+.shop-product-card:hover {
+
+    transform: translateY(-7px);
+
+    border-color: #c5cad3;
+
+    box-shadow:
+        0 18px 45px rgba(6,19,47,.13);
+
+}
+
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.shop-product-image {
+
+    height: 245px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #ffffff 0%,
+            #f0f3f8 55%,
+            #e3e7ee 100%
+        );
+
+    overflow: hidden;
+
+}
+
+
+.product-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform .5s ease,
+        filter .5s ease;
+
+}
+
+
+.shop-product-card:hover .product-image {
+
+    transform: scale(1.06);
+
+    filter: brightness(1.02);
+
+}
+
+
+.product-image-placeholder {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #ffffff 0%,
+            #f0f3f8 55%,
+            #e3e7ee 100%
+        );
+
+}
+
+.product-image-placeholder i {
+
+    color: var(--royal-blue);
+
+    font-size: 62px;
+
+    transition:
+        transform .35s ease;
+
+}
+
+.shop-product-card:hover
+.product-image-placeholder i {
+
+    transform:
+        scale(1.12)
+        rotate(-4deg);
+
+}
+
+
+/* =========================================
+   STOCK BADGE
+========================================= */
+
+.stock-badge {
+
+    position: absolute;
+
+    top: 12px;
+
+    right: 12px;
+
+    padding: 6px 9px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    border:
+        1px solid #dce1e8;
+
+    color: #2f7650;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    z-index: 3;
+
+}
+
+.stock-badge.low-stock {
+
+    color: #a34c4c;
+
+}
+
+
+/* =========================================
+   PRODUCT INFO
+========================================= */
+
+.shop-product-info {
+
+    padding: 20px;
+
+}
+
+.product-meta {
+
+    color: var(--silver-dark);
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+}
+
+.product-meta span {
+
+    color: var(--silver);
+
+    margin: 0 3px;
+
+}
+
+.shop-product-info h5 {
+
+    color: var(--royal-blue-dark);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 22px;
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    min-height: 52px;
+
+    margin-bottom: 8px;
+
+}
+
+.product-price {
+
+    color: var(--royal-blue);
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+}
+
+.product-stock {
+
+    font-size: 11px;
+
+    margin-bottom: 16px;
+
+}
+
+.stock-success {
+
+    color: #39805a;
+
+}
+
+.stock-danger {
+
+    color: #ad4b4b;
+
+}
+
+.product-view-btn {
+
+    width: 100%;
+
+    padding: 9px 12px;
+
+    font-size: 11px;
+
+    letter-spacing: .5px;
+
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-shop {
+
+    text-align: center;
+
+    padding: 80px 25px;
+
+    background: #f7f8fa;
+
+    border:
+        1px solid var(--border);
+
+}
+
+.empty-icon {
+
+    width: 80px;
+
+    height: 80px;
+
+    margin:
+        0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--royal-blue);
+
+    color: var(--silver-light);
+
+    border-radius: 50%;
+
+    font-size: 32px;
+
+}
+
+.empty-shop h3 {
+
+    color: var(--royal-blue-dark);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 32px;
+
+}
+
+.empty-shop p {
+
+    max-width: 500px;
+
+    margin:
+        0 auto 25px;
+
+    color: var(--muted);
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .shop-hero {
+
+        padding: 60px 0;
+
+    }
+
+    .shop-heading {
+
+        align-items: flex-start;
+
+    }
+
+    .shop-heading h2 {
+
+        font-size: 34px;
+
+    }
+
+    .collection-count {
+
+        min-width: 80px;
+
+    }
+
+    .shop-product-image {
+
+        height: 210px;
+
+    }
+
+    .product-image-placeholder i {
+
+        font-size: 52px;
+
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .shop-hero h1 {
+
+        font-size: 48px;
+
+    }
+
+    .shop-heading {
+
+        flex-direction: column;
+
+    }
+
+    .collection-count {
+
+        width: 100%;
+
+    }
+
+    .shop-filter-card {
+
+        padding: 18px;
+
+    }
+
+    .shop-product-info {
+
+        padding: 14px;
+
+    }
+
+    .shop-product-info h5 {
+
+        font-size: 19px;
+
+        min-height: 45px;
+
+    }
+
+    .product-price {
+
+        font-size: 17px;
+
+    }
+
+    .active-filter {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}
+
+</style>
+
+
+<!-- ============================= -->
+<!-- JAVASCRIPT -->
+<!-- ============================= -->
+
+<script>
+
+/* =========================================
+   DATABASE CART - ADD PRODUCT
+========================================= */
+
+async function addProductToCart(
+    productId,
+    button,
+    url
+) {
+
+    const originalHTML =
+        button.innerHTML;
+
+    button.disabled = true;
+
+    button.classList.add("loading");
+
+    button.innerHTML = `
+        <span
+            class="spinner-border
+                   spinner-border-sm
+                   me-2">
+        </span>
+        Adding...
+    `;
+
+
+    try {
+
+        /* GET CSRF TOKEN */
+
+        const csrfToken =
+            "{{ csrf_token() }}";
+
+
+        /* SEND PRODUCT TO FLASK */
+
+        const response =
+            await fetch(url, {
+
+                method: "POST",
+
+                credentials: "same-origin",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    "X-Requested-With":
+                        "XMLHttpRequest",
+
+                    "X-CSRFToken":
+                        csrfToken
+
+                },
+
+                body: JSON.stringify({})
+
+            });
+
+
+        /* READ JSON */
+
+        let data;
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (error) {
+
+            throw new Error(
+                "Invalid response from server."
+            );
+
+        }
+
+
+        /* LOGIN REQUIRED */
+
+        if (response.status === 401) {
+
+            window.location.href =
+                "{{ url_for('auth.login') }}";
+
+            return;
+
+        }
+
+
+        /* SERVER ERROR */
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to add product to cart."
+            );
+
+        }
+
+
+        /* BACKEND FAILURE */
+
+        if (data.success !== true) {
+
+            throw new Error(
+                data.message ||
+                "Unable to add product to cart."
+            );
+
+        }
+
+
+        /* UPDATE CART BADGE */
+
+        const cartBadge =
+            document.getElementById(
+                "cartBadge"
+            );
+
+        if (cartBadge) {
+
+            const totalItems =
+                Number(
+                    data.total_items || 0
+                );
+
+            cartBadge.textContent =
+                totalItems;
+
+            cartBadge.style.display =
+                totalItems > 0
+                    ? "inline-flex"
+                    : "none";
+
+
+            cartBadge.classList.add(
+                "cart-badge-pop"
+            );
+
+
+            setTimeout(() => {
+
+                cartBadge.classList.remove(
+                    "cart-badge-pop"
+                );
+
+            }, 400);
+
+        }
+
+
+        /* SUCCESS BUTTON */
+
+        button.innerHTML = `
+            <i
+                class="bi bi-check-circle me-2">
+            </i>
+            Added to Cart
+        `;
+
+
+        /* SUCCESS MESSAGE */
+
+        showCartMessage(
+            data.message ||
+            "Product added to your cart.",
+            "success"
+        );
+
+
+        /* RESTORE BUTTON */
+
+        setTimeout(() => {
+
+            button.innerHTML =
+                originalHTML;
+
+            button.disabled =
+                false;
+
+            button.classList.remove(
+                "loading"
+            );
+
+        }, 1500);
+
+
+    } catch (error) {
+
+        console.error(
+            "Add to cart error:",
+            error
+        );
+
+
+        /* RESTORE BUTTON */
+
+        button.innerHTML =
+            originalHTML;
+
+        button.disabled =
+            false;
+
+        button.classList.remove(
+            "loading"
+        );
+
+
+        /* SHOW ERROR */
+
+        showCartMessage(
+            error.message ||
+            "Unable to add product to cart.",
+            "danger"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   CART MESSAGE / TOAST
+========================================= */
+
+function showCartMessage(
+    message,
+    type
+) {
+
+    let toast =
+        document.getElementById(
+            "cartMessage"
+        );
+
+
+    /* CREATE TOAST */
+
+    if (!toast) {
+
+        toast =
+            document.createElement(
+                "div"
+            );
+
+        toast.id =
+            "cartMessage";
+
+        toast.style.position =
+            "fixed";
+
+        toast.style.top =
+            "90px";
+
+        toast.style.right =
+            "25px";
+
+        toast.style.zIndex =
+            "9999";
+
+        toast.style.padding =
+            "14px 20px";
+
+        toast.style.borderRadius =
+            "8px";
+
+        toast.style.color =
+            "#ffffff";
+
+        toast.style.boxShadow =
+            "0 12px 35px rgba(0,0,0,.20)";
+
+        toast.style.fontSize =
+            "13px";
+
+        toast.style.fontWeight =
+            "500";
+
+        toast.style.minWidth =
+            "260px";
+
+        document.body.appendChild(
+            toast
+        );
+
+    }
+
+
+    /* TOAST COLOR */
+
+    if (type === "danger") {
+
+        toast.style.background =
+            "#8b2e2e";
+
+    } else {
+
+        toast.style.background =
+            "#06132f";
+
+    }
+
+
+    /* TOAST MESSAGE */
+
+    toast.innerHTML = `
+        <i class="bi bi-${
+            type === "danger"
+                ? "exclamation-circle"
+                : "check-circle"
+        } me-2"></i>
+        ${message}
+    `;
+
+
+    toast.style.display =
+        "block";
+
+
+    /* HIDE TOAST */
+
+    setTimeout(() => {
+
+        toast.style.display =
+            "none";
+
+    }, 2500);
+
+}
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const cartBadge =
+            document.getElementById(
+                "cartBadge"
+            );
+
+        if (cartBadge) {
+
+            if (
+                !cartBadge.textContent.trim()
+            ) {
+
+                cartBadge.style.display =
+                    "none";
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

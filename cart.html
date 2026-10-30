@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart | Shree Vagheshwari Jewellery{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">Your Cart</h2>
+            <p class="text-muted mb-0">
+                Review your selected jewellery
+            </p>
+        </div>
+
+        <a href="{{ url_for('products.index') }}"
+           class="btn btn-outline-dark">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+
+    {% if items %}
+
+    <div class="row g-4">
+
+        <!-- ========================= -->
+        <!-- CART ITEMS -->
+        <!-- ========================= -->
+
+        <div class="col-lg-8">
+
+            {% for item in items %}
+
+            <div class="card mb-3 shadow-sm border-0 cart-item"
+                 id="cart-item-{{ item.id }}">
+
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+
+                        <!-- ========================= -->
+                        <!-- PRODUCT IMAGE -->
+                        <!-- ========================= -->
+
+                        <!-- PRODUCT IMAGE -->
+
+<div class="col-md-2 text-center">
+
+    {% if item.product.sku == 'RNG001' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/chain3.jpeg') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'RNG002' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/chain2.jpeg') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'EAR001' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/chain1.jpeg') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'EAR002' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/chain.webp') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'BRC001' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/bracelet2.webp') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'BRC002' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/bracelet1.jpeg') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'CHN001' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/bracelet3.jpeg') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'CHN002' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/bracelet4.webp') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'PND001' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/braclet.webp') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% elif item.product.sku == 'PEN002' %}
+
+        <img
+            src="{{ url_for('static', filename='uploads/products/pendant.jpg') }}"
+            alt="{{ item.product.name }}"
+            class="cart-product-image"
+        >
+
+    {% else %}
+
+        <div class="cart-product-placeholder">
+            <i class="bi bi-gem"></i>
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+                        <!-- ========================= -->
+                        <!-- PRODUCT DETAILS -->
+                        <!-- ========================= -->
+
+                        <div class="col-md-4">
+
+                            <h5 class="mb-1">
+                                {{ item.product.name }}
+                            </h5>
+
+                            <small class="text-muted">
+                                SKU: {{ item.product.sku }}
+                            </small>
+
+                            <div class="mt-2 fw-semibold">
+                                ₹{{ "%.2f"|format(item.product.price|float) }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- QUANTITY -->
+                        <!-- ========================= -->
+
+                        <div class="col-md-3">
+
+                            <div class="d-flex align-items-center justify-content-center">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-dark btn-sm quantity-btn"
+                                    onclick="changeQuantity({{ item.id }}, -1)"
+                                >
+                                    <i class="bi bi-dash"></i>
+                                </button>
+
+
+                                <span
+                                    class="mx-3 fw-bold"
+                                    id="quantity-{{ item.id }}"
+                                >
+                                    {{ item.quantity }}
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-dark btn-sm quantity-btn"
+                                    onclick="changeQuantity({{ item.id }}, 1)"
+                                >
+                                    <i class="bi bi-plus"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- ITEM TOTAL -->
+                        <!-- ========================= -->
+
+                        <div class="col-md-2 text-end">
+
+                            {% set item_total =
+                                item.product.price|float * item.quantity
+                            %}
+
+                            <strong>
+                                ₹{{ "%.2f"|format(item_total) }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- DELETE -->
+                        <!-- ========================= -->
+
+                        <div class="col-md-1 text-end">
+
+                            <button
+                                type="button"
+                                class="btn btn-link text-danger p-0"
+                                onclick="removeItem({{ item.id }})"
+                                title="Remove item"
+                            >
+
+                                <i class="bi bi-trash3 fs-5"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ORDER SUMMARY -->
+        <!-- ========================= -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 cart-summary">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-4">
+                        Order Summary
+                    </h4>
+
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>Subtotal</span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(subtotal|float) }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>Making Charges</span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(making_charges|float) }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>GST</span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(gst|float) }}
+                        </span>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="d-flex justify-content-between mb-4">
+
+                        <strong>Total</strong>
+
+                        <strong class="fs-5">
+                            ₹{{ "%.2f"|format(total|float) }}
+                        </strong>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('products.checkout') }}"
+                        class="btn btn-dark w-100 py-3"
+                    >
+
+                        <i class="bi bi-credit-card me-2"></i>
+                        Proceed to Checkout
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- ========================= -->
+    <!-- EMPTY CART -->
+    <!-- ========================= -->
+
+    <div class="text-center py-5">
+
+        <i
+            class="bi bi-bag-x"
+            style="font-size:70px;color:#999;"
+        ></i>
+
+        <h3 class="mt-4">
+            Your cart is empty
+        </h3>
+
+        <p class="text-muted">
+            Add some beautiful jewellery to your cart.
+        </p>
+
+        <a
+            href="{{ url_for('products.index') }}"
+            class="btn btn-dark mt-3"
+        >
+
+            <i class="bi bi-shop me-2"></i>
+            Start Shopping
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- ========================= -->
+<!-- CART CSS -->
+<!-- ========================= -->
+
+<style>
+
+.cart-item {
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+
+    border-radius: 16px;
+}
+
+.cart-item:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+
+.cart-product-image {
+    width: 90px;
+    height: 90px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    display: block;
+
+    margin: auto;
+}
+
+
+.cart-product-placeholder {
+    width: 90px;
+    height: 90px;
+
+    border-radius: 12px;
+
+    background: #f5f5f5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto;
+
+    color: #082917;
+
+    font-size: 32px;
+}
+
+
+.quantity-btn {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.cart-summary {
+    border-radius: 16px;
+
+    position: sticky;
+    top: 100px;
+}
+
+
+@media (max-width: 768px) {
+
+    .cart-product-image,
+    .cart-product-placeholder {
+
+        width: 80px;
+        height: 80px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- ========================= -->
+<!-- CART JAVASCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+const csrfToken = "{{ csrf_token() }}";
+
+
+/* =========================
+   CHANGE QUANTITY
+========================= */
+
+async function changeQuantity(itemId, change) {
+
+    const quantityElement =
+        document.getElementById("quantity-" + itemId);
+
+    if (!quantityElement) {
+        return;
+    }
+
+
+    let currentQuantity =
+        parseInt(quantityElement.textContent.trim());
+
+
+    if (isNaN(currentQuantity)) {
+        currentQuantity = 1;
+    }
+
+
+    const newQuantity =
+        currentQuantity + change;
+
+
+    /* If quantity becomes 0, remove item */
+
+    if (newQuantity < 1) {
+
+        await removeItem(itemId);
+
+        return;
+    }
+
+
+    try {
+
+        const url =
+            "{{ url_for('products.update_cart_item', item_id=0) }}"
+                .replace("/0", "/" + itemId);
+
+
+        const response = await fetch(
+            url,
+            {
+                method: "POST",
+
+                credentials: "same-origin",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+
+                body: JSON.stringify({
+                    quantity: newQuantity
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            alert(
+                data.message ||
+                "Unable to update cart."
+            );
+
+            return;
+        }
+
+
+        quantityElement.textContent =
+            data.quantity;
+
+
+        /* Recalculate subtotal, GST and total */
+
+        window.location.reload();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Quantity update error:",
+            error
+        );
+
+        alert(
+            "Unable to update cart. Please try again."
+        );
+
+    }
+
+}
+
+
+/* =========================
+   REMOVE ITEM
+========================= */
+
+async function removeItem(itemId) {
+
+    try {
+
+        const url =
+            "{{ url_for('products.remove_cart_item', item_id=0) }}"
+                .replace("/0", "/" + itemId);
+
+
+        const response = await fetch(
+            url,
+            {
+                method: "POST",
+
+                credentials: "same-origin",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+
+                body: JSON.stringify({})
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            alert(
+                data.message ||
+                "Unable to remove item."
+            );
+
+            return;
+        }
+
+
+        /* Remove item without confirmation popup */
+
+        const itemElement =
+            document.getElementById(
+                "cart-item-" + itemId
+            );
+
+
+        if (itemElement) {
+
+            itemElement.remove();
+
+        }
+
+
+        /* Reload to update totals / empty-cart page */
+
+        window.location.reload();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Remove item error:",
+            error
+        );
+
+        alert(
+            "Unable to remove item. Please try again."
+        );
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

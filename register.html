@@ -1,0 +1,930 @@
+{% extends "base.html" %}
+
+{% block title %}Register | Shree Vagheswari Jewellers Jewels{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrap">
+
+    <div class="auth-card register-card">
+
+        <!-- Header -->
+        <div class="text-center mb-4">
+
+            <div class="register-icon">
+                <i class="bi bi-person-plus"></i>
+            </div>
+
+            <p class="eyebrow mt-3 mb-1">
+                JOIN THE COLLECTION
+            </p>
+
+            <h1>Create Account</h1>
+
+            <p class="auth-subtitle">
+                Create your Shree Vagheswari Jewellers Jewels account
+            </p>
+
+        </div>
+
+
+        <!-- =========================================
+             REGISTRATION FORM
+        ========================================== -->
+
+        <form
+            method="POST"
+            action="{{ url_for('auth.register') }}"
+        >
+
+            <!-- CSRF Security Token -->
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
+            <!-- =====================================
+                 NAME
+            ====================================== -->
+
+            <div class="form-group mb-3">
+
+                <label class="form-label">
+                    Full Name
+                </label>
+
+                <div class="input-group luxury-input">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-person"></i>
+                    </span>
+
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        class="form-control"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 EMAIL
+            ====================================== -->
+
+            <div class="form-group mb-3">
+
+                <label class="form-label">
+                    Email Address
+                </label>
+
+                <div class="input-group luxury-input">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        maxlength="120"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 PHONE
+            ====================================== -->
+
+            <div class="form-group mb-3">
+
+                <label class="form-label">
+                    Phone Number
+                </label>
+
+                <div class="input-group luxury-input">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-telephone"></i>
+                    </span>
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        class="form-control"
+                        placeholder="Enter your phone number"
+                        autocomplete="tel"
+                        maxlength="20"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 PASSWORD
+            ====================================== -->
+
+            <div class="form-group mb-3">
+
+                <label class="form-label">
+                    Password
+                </label>
+
+                <div class="input-group luxury-input">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-lock"></i>
+                    </span>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Create a password"
+                        minlength="8"
+                        maxlength="128"
+                        required
+                        autocomplete="new-password"
+                    >
+
+                    <button
+                        type="button"
+                        class="input-group-text password-toggle"
+                        onclick="togglePassword(
+                            'password',
+                            'passwordIcon'
+                        )"
+                        aria-label="Show or hide password"
+                    >
+                        <i
+                            class="bi bi-eye"
+                            id="passwordIcon"
+                        ></i>
+                    </button>
+
+                </div>
+
+                <small class="password-hint">
+                    Password must contain at least 8 characters.
+                </small>
+
+            </div>
+
+
+            <!-- =====================================
+                 CONFIRM PASSWORD
+            ====================================== -->
+
+            <div class="form-group mb-4">
+
+                <label class="form-label">
+                    Confirm Password
+                </label>
+
+                <div class="input-group luxury-input">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-shield-lock"></i>
+                    </span>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        class="form-control"
+                        placeholder="Confirm your password"
+                        minlength="8"
+                        maxlength="128"
+                        required
+                        autocomplete="new-password"
+                    >
+
+                    <button
+                        type="button"
+                        class="input-group-text password-toggle"
+                        onclick="togglePassword(
+                            'confirm_password',
+                            'confirmPasswordIcon'
+                        )"
+                        aria-label="Show or hide confirm password"
+                    >
+                        <i
+                            class="bi bi-eye"
+                            id="confirmPasswordIcon"
+                        ></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 TERMS & CONDITIONS
+            ====================================== -->
+
+            <div class="form-check mb-4">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="terms"
+                    name="terms"
+                    value="accepted"
+                    required
+                >
+
+                <label
+                    class="form-check-label"
+                    for="terms"
+                >
+                    I agree to the
+
+                    <span class="terms-text">
+                        Terms & Conditions
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- =====================================
+                 REGISTER BUTTON
+            ====================================== -->
+
+            <button
+                type="submit"
+                class="btn btn-silver w-100 register-btn"
+            >
+
+                <i class="bi bi-person-check me-2"></i>
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+        <!-- =========================================
+             DIVIDER
+        ========================================== -->
+
+        <div class="auth-divider">
+
+            <span>OR</span>
+
+        </div>
+
+
+        <!-- =========================================
+             LOGIN LINK
+        ========================================== -->
+
+        <div class="text-center">
+
+            <p class="text-muted mb-2">
+                Already have an account?
+            </p>
+
+            <a
+                href="{{ url_for('auth.login') }}"
+                class="login-link"
+            >
+                Sign In
+
+                <i class="bi bi-arrow-right ms-1"></i>
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================================
+             SECURITY NOTE
+        ========================================== -->
+
+        <div class="security-note">
+
+            <i class="bi bi-shield-check"></i>
+
+            <span>
+                Your personal information is securely protected.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* =========================================
+   REGISTER PAGE
+========================================= */
+
+.auth-wrap {
+
+    min-height: 82vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 60px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3f5f9 0%,
+            #ffffff 50%,
+            #eef1f6 100%
+        );
+}
+
+
+/* =========================================
+   REGISTER CARD
+========================================= */
+
+.register-card {
+
+    width: min(500px, 100%);
+
+    background: #ffffff;
+
+    padding: 45px;
+
+    border: 1px solid #dfe3ea;
+
+    box-shadow:
+        0 25px 70px rgba(6, 19, 47, 0.13);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   TOP DECORATIVE LINE
+========================================= */
+
+.register-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--royal-blue-dark),
+            var(--silver),
+            var(--royal-blue)
+        );
+}
+
+
+/* =========================================
+   REGISTER ICON
+========================================= */
+
+.register-icon {
+
+    width: 68px;
+
+    height: 68px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--royal-blue-dark),
+            var(--royal-blue)
+        );
+
+    color: var(--silver-light);
+
+    font-size: 27px;
+
+    box-shadow:
+        0 10px 25px rgba(6, 19, 47, 0.25);
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.register-card h1 {
+
+    color: var(--royal-blue);
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 43px;
+
+    font-weight: 600;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================
+   EYEBROW
+========================================= */
+
+.register-card .eyebrow {
+
+    color: var(--silver-dark);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================================
+   SUBTITLE
+========================================= */
+
+.auth-subtitle {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   LABELS
+========================================= */
+
+.register-card .form-label {
+
+    color: var(--royal-blue-dark);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.luxury-input {
+
+    border: 1px solid #d5dae3;
+
+    background: #ffffff;
+
+    transition: all 0.25s ease;
+}
+
+
+/* =========================================
+   INPUT FOCUS
+========================================= */
+
+.luxury-input:focus-within {
+
+    border-color: var(--royal-blue-light);
+
+    box-shadow:
+        0 0 0 3px rgba(22, 59, 130, 0.08);
+}
+
+
+/* =========================================
+   INPUT ICON
+========================================= */
+
+.luxury-input .input-group-text {
+
+    background: #f5f7fa;
+
+    border: none;
+
+    color: var(--royal-blue);
+
+    min-width: 45px;
+
+    justify-content: center;
+}
+
+
+/* =========================================
+   INPUT FIELD
+========================================= */
+
+.luxury-input .form-control {
+
+    border: none;
+
+    padding: 12px;
+
+    color: var(--ink);
+
+    box-shadow: none;
+}
+
+
+.luxury-input .form-control:focus {
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.luxury-input .form-control::placeholder {
+
+    color: #a1a7b2;
+}
+
+
+/* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+.password-toggle {
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.password-toggle:hover {
+
+    background: var(--silver-light) !important;
+}
+
+
+/* =========================================
+   PASSWORD HINT
+========================================= */
+
+.password-hint {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #8a919e;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   CHECKBOX
+========================================= */
+
+.form-check-input {
+
+    border-color: var(--silver-dark);
+}
+
+
+.form-check-input:checked {
+
+    background-color: var(--royal-blue);
+
+    border-color: var(--royal-blue);
+}
+
+
+.form-check-label {
+
+    color: #687080;
+
+    font-size: 12px;
+}
+
+
+.terms-text {
+
+    color: var(--royal-blue);
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   REGISTER BUTTON
+========================================= */
+
+.register-btn {
+
+    padding: 13px;
+
+    font-size: 14px;
+
+    letter-spacing: 0.5px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+
+.register-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(6, 19, 47, 0.18);
+}
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.auth-divider {
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 30px 0;
+
+    color: #a0a5ae;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+
+.auth-divider::before,
+.auth-divider::after {
+
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: #e2e5eb;
+}
+
+
+.auth-divider span {
+
+    padding: 0 15px;
+}
+
+
+/* =========================================
+   LOGIN LINK
+========================================= */
+
+.login-link {
+
+    color: var(--royal-blue);
+
+    font-weight: 600;
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    transition: 0.25s;
+}
+
+
+.login-link:hover {
+
+    color: var(--royal-blue-light);
+}
+
+
+/* =========================================
+   SECURITY NOTE
+========================================= */
+
+.security-note {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px;
+
+    margin-top: 25px;
+
+    background: #f5f7fa;
+
+    border: 1px solid #e2e5eb;
+
+    color: #737b89;
+
+    font-size: 11px;
+}
+
+
+.security-note i {
+
+    color: var(--royal-blue);
+
+    font-size: 16px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .auth-wrap {
+
+        padding: 35px 15px;
+    }
+
+    .register-card {
+
+        padding: 35px 25px;
+    }
+
+    .register-card h1 {
+
+        font-size: 36px;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+/* =========================================
+   PASSWORD VISIBILITY
+========================================= */
+
+function togglePassword(fieldId, iconId) {
+
+    const password =
+        document.getElementById(fieldId);
+
+    const icon =
+        document.getElementById(iconId);
+
+    if (!password || !icon) {
+        return;
+    }
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        icon.classList.remove("bi-eye");
+
+        icon.classList.add("bi-eye-slash");
+
+    } else {
+
+        password.type = "password";
+
+        icon.classList.remove("bi-eye-slash");
+
+        icon.classList.add("bi-eye");
+
+    }
+
+}
+
+
+/* =========================================
+   PASSWORD MATCH VALIDATION
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const form =
+            document.querySelector(
+                ".register-card form"
+            );
+
+        if (!form) {
+            return;
+        }
+
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+                const password =
+                    document.getElementById(
+                        "password"
+                    ).value;
+
+                const confirmPassword =
+                    document.getElementById(
+                        "confirm_password"
+                    ).value;
+
+
+                /* Password length */
+
+                if (password.length < 8) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Password must contain at least 8 characters."
+                    );
+
+                    return;
+                }
+
+
+                /* Password match */
+
+                if (
+                    password !==
+                    confirmPassword
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Passwords do not match."
+                    );
+
+                    return;
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+{% endblock %}

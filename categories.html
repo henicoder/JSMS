@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}Categories | Lumière Jewels{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <div class="eyebrow text-silver">
+                JEWELLERY MANAGEMENT
+            </div>
+
+            <h1 class="mb-1" style="color: var(--royal-blue);">
+                Categories
+            </h1>
+
+            <p class="text-muted mb-0">
+                Manage jewellery categories for your store.
+            </p>
+        </div>
+
+        <div class="d-none d-md-block">
+            <i class="bi bi-grid-3x3-gap-fill"
+               style="font-size: 42px; color: var(--silver-dark);">
+            </i>
+        </div>
+
+    </div>
+
+
+    <!-- Add Category Panel -->
+    <div class="panel mb-4">
+
+        <div class="d-flex align-items-center mb-3">
+
+            <div class="me-3">
+                <i class="bi bi-plus-circle-fill"
+                   style="font-size: 25px; color: var(--royal-blue);">
+                </i>
+            </div>
+
+            <div>
+                <h4 class="mb-0" style="color: var(--royal-blue);">
+                    Add New Category
+                </h4>
+
+                <small class="text-muted">
+                    Create a new jewellery category.
+                </small>
+            </div>
+
+        </div>
+
+
+        <form class="row g-3" method="post">
+
+            <div class="col-md-5">
+
+                <label class="form-label fw-semibold">
+                    Category Name
+                </label>
+
+                <input
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    placeholder="e.g. Diamond Rings"
+                    required>
+
+            </div>
+
+
+            <div class="col-md-5">
+
+                <label class="form-label fw-semibold">
+                    Description
+                </label>
+
+                <input
+                    class="form-control"
+                    type="text"
+                    name="description"
+                    placeholder="Enter category description">
+
+            </div>
+
+
+            <div class="col-md-2 d-flex align-items-end">
+
+                <button
+                    type="submit"
+                    class="btn btn-silver w-100">
+
+                    <i class="bi bi-plus-lg me-1"></i>
+                    Add
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Categories List -->
+    <div class="panel">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+                <h4 class="mb-0" style="color: var(--royal-blue);">
+                    Jewellery Categories
+                </h4>
+
+                <small class="text-muted">
+                    Available categories in your store
+                </small>
+            </div>
+
+            <span class="badge badge-soft px-3 py-2">
+                {{ categories|length }} Categories
+            </span>
+
+        </div>
+
+
+        {% if categories %}
+
+            {% for c in categories %}
+
+            <div class="alert-line category-row">
+
+                <div class="d-flex align-items-center">
+
+                    <div class="me-3 category-icon">
+                        <i class="bi bi-gem"></i>
+                    </div>
+
+                    <div>
+
+                        <strong style="color: var(--royal-blue);">
+                            {{ c.name }}
+                        </strong>
+
+                        {% if c.description %}
+                        <br>
+
+                        <small class="text-muted">
+                            {{ c.description }}
+                        </small>
+                        {% else %}
+                        <br>
+
+                        <small class="text-muted">
+                            No description available
+                        </small>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <span class="badge badge-soft">
+                    Active
+                </span>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <!-- Empty State -->
+
+            <div class="empty-page py-5">
+
+                <i class="bi bi-folder-x"
+                   style="font-size: 55px; color: var(--silver-dark);">
+                </i>
+
+                <h3 class="mt-3"
+                    style="color: var(--royal-blue);">
+                    No Categories Found
+                </h3>
+
+                <p class="text-muted">
+                    Add your first jewellery category using the form above.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CATEGORY PAGE STYLING
+     ========================= -->
+
+<style>
+
+.category-row {
+    padding: 16px 5px;
+    transition: all 0.25s ease;
+}
+
+.category-row:hover {
+    padding-left: 12px;
+    padding-right: 12px;
+    background: #f5f7fb;
+}
+
+.category-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #e8e8e8,
+        #f8f8f8
+    );
+
+    border: 1px solid #d2d2d2;
+
+    color: var(--royal-blue);
+
+    font-size: 18px;
+}
+
+</style>
+
+{% endblock %}

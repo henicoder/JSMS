@@ -1,0 +1,1716 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | Lumière Jewels{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-page">
+
+    <div class="container-fluid px-lg-5 py-5">
+
+        <!-- ================================
+             DASHBOARD HEADER
+        ================================= -->
+
+        <div class="dashboard-header mb-5">
+
+            <div>
+
+                <p class="eyebrow mb-2">
+                    CONTROL CENTER
+                </p>
+
+                <h1 class="dashboard-title">
+                    Admin Dashboard
+                </h1>
+
+                <p class="dashboard-subtitle">
+                    Manage your jewellery store, orders, customers and inventory.
+                </p>
+
+            </div>
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{{ url_for('admin.products') }}"
+                    class="btn btn-silver dashboard-btn"
+                >
+                    <i class="bi bi-gem me-2"></i>
+                    Manage Products
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             STATISTICS
+        ================================= -->
+
+        <div class="row g-4 mb-5">
+
+            <!-- Sales -->
+
+            <div class="col-6 col-xl-2">
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>Total Sales</span>
+
+                        <h3>
+                            ₹{{ "%.0f"|format(stats.sales|float) }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Orders -->
+
+            <div class="col-6 col-xl-2">
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>Orders</span>
+
+                        <h3>
+                            {{ stats.orders }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Customers -->
+
+            <div class="col-6 col-xl-2">
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>Customers</span>
+
+                        <h3>
+                            {{ stats.customers }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Products -->
+
+            <div class="col-6 col-xl-2">
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-gem"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>Products</span>
+
+                        <h3>
+                            {{ stats.products }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Low Stock -->
+
+            <div class="col-6 col-xl-2">
+
+                <div class="dashboard-stat warning-stat">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>Low Stock</span>
+
+                        <h3>
+                            {{ stats.low_stock }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Pending -->
+
+            <div class="col-6 col-xl-2">
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>Pending Orders</span>
+
+                        <h3>
+                            {{ stats.pending }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             MAIN DASHBOARD
+        ================================= -->
+
+        <div class="row g-4">
+
+
+            <!-- RECENT ORDERS -->
+
+            <div class="col-lg-8">
+
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <p class="panel-eyebrow">
+                                ORDER MANAGEMENT
+                            </p>
+
+                            <h4>
+                                Recent Orders
+                            </h4>
+
+                        </div>
+
+                        <div class="panel-icon">
+
+                            <i class="bi bi-receipt"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+
+                        <table class="table dashboard-table align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Order</th>
+
+                                    <th>Status</th>
+
+                                    <th>Total</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for o in recent_orders %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="order-info">
+
+                                            <div class="order-icon">
+
+                                                <i class="bi bi-bag"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    {{ o.order_number }}
+                                                </strong>
+
+                                                <small>
+                                                    Jewellery Order
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status-badge">
+
+                                            <span class="status-dot"></span>
+
+                                            {{ o.order_status }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <strong class="order-total">
+
+                                            ₹{{ "%.2f"|format(
+                                                o.total_amount|float
+                                            ) }}
+
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+                                {% else %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="3"
+                                        class="text-center empty-orders"
+                                    >
+
+                                        <i class="bi bi-inbox"></i>
+
+                                        <p>
+                                            No recent orders available.
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOW STOCK -->
+
+            <div class="col-lg-4">
+
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <p class="panel-eyebrow">
+                                INVENTORY
+                            </p>
+
+                            <h4>
+                                Low Stock Alerts
+                            </h4>
+
+                        </div>
+
+                        <div class="panel-icon warning-icon">
+
+                            <i class="bi bi-box-seam"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stock-list">
+
+                        {% for p in low_stock %}
+
+                        <div class="stock-item">
+
+                            <div class="stock-product">
+
+                                <div class="product-mini-icon">
+
+                                    <i class="bi bi-gem"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        {{ p.name }}
+                                    </strong>
+
+                                    <small>
+                                        SKU: {{ p.sku }}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="stock-number">
+
+                                <span>
+                                    {{ p.stock_quantity }}
+                                </span>
+
+                                <small>
+                                    left
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="healthy-stock">
+
+                            <div class="healthy-icon">
+
+                                <i class="bi bi-check-lg"></i>
+
+                            </div>
+
+                            <h5>
+                                Inventory Healthy
+                            </h5>
+
+                            <p>
+                                All stock levels look healthy.
+                            </p>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             QUICK ACCESS
+        ================================= -->
+
+        <div class="quick-section mt-5">
+
+            <div class="mb-4">
+
+                <p class="panel-eyebrow">
+                    QUICK ACCESS
+                </p>
+
+                <h4 class="quick-title">
+                    Store Management
+                </h4>
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <!-- PRODUCTS -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for('admin.products') }}"
+                        class="quick-card"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-gem"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Products
+                            </h5>
+
+                            <p>
+                                Manage jewellery products
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-arrow-right quick-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- CATEGORIES -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for('admin.categories') }}"
+                        class="quick-card"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-grid"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Categories
+                            </h5>
+
+                            <p>
+                                Organize jewellery collections
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-arrow-right quick-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- VIEW STORE -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for('main.shop') }}"
+                        class="quick-card"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-shop"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                View Store
+                            </h5>
+
+                            <p>
+                                Preview customer storefront
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-arrow-right quick-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- LIVE SALES -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for('admin.live_sales') }}"
+                        class="quick-card live-sales-card"
+                    >
+
+                        <div class="quick-icon live-icon">
+
+                            <i class="bi bi-activity"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Live Sales Tracker
+                            </h5>
+
+                            <p>
+                                Monitor customer purchases in real time
+                            </p>
+
+                        </div>
+
+                        <div class="live-indicator">
+
+                            <span></span>
+
+                            LIVE
+
+                        </div>
+
+                        <i class="bi bi-arrow-right quick-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- INVENTORY PREDICTIONS -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for('admin.inventory_predictions') }}"
+                        class="quick-card"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-box-seam"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Inventory Predictions
+                            </h5>
+
+                            <p>
+                                Predict stockouts and reorder needs
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-arrow-right quick-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- SHOP -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for('main.shop') }}"
+                        class="quick-card"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-eye"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Store Preview
+                            </h5>
+
+                            <p>
+                                View the customer experience
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-arrow-right quick-arrow"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================
+     DASHBOARD STYLES
+================================= -->
+
+<style>
+
+/* =========================================
+   DASHBOARD PAGE
+========================================= */
+
+.dashboard-page {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f6fa 0%,
+            #ffffff 50%,
+            #eef1f6 100%
+        );
+
+    min-height:
+        calc(100vh - 80px);
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.dashboard-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 30px;
+}
+
+
+.dashboard-title {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 48px;
+
+    font-weight: 600;
+
+    color:
+        var(--royal-blue);
+
+    margin: 0;
+}
+
+
+.dashboard-subtitle {
+
+    color:
+        var(--muted);
+
+    font-size: 13px;
+
+    margin-top: 8px;
+}
+
+
+.dashboard-btn {
+
+    padding: 12px 22px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.dashboard-stat {
+
+    min-height: 145px;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border:
+        1px solid var(--border);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+
+.dashboard-stat::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    width: 3px;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            var(--royal-blue-dark),
+            var(--silver)
+        );
+}
+
+
+.dashboard-stat:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        #c8ced9;
+
+    box-shadow:
+        0 15px 35px
+        rgba(6, 19, 47, .10);
+}
+
+
+.stat-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        #f1f3f7;
+
+    color:
+        var(--royal-blue);
+
+    font-size: 18px;
+}
+
+
+.stat-content span {
+
+    display: block;
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+
+.stat-content h3 {
+
+    color:
+        var(--royal-blue-dark);
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+    margin: 0;
+}
+
+
+.warning-stat::before {
+
+    background:
+        linear-gradient(
+            #8f8f8f,
+            #c0c0c0
+        );
+}
+
+
+/* =========================================
+   PANELS
+========================================= */
+
+.dashboard-panel {
+
+    background: #ffffff;
+
+    border:
+        1px solid var(--border);
+
+    box-shadow:
+        0 10px 35px
+        rgba(6, 19, 47, .06);
+}
+
+
+.panel-header {
+
+    padding: 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid #edf0f4;
+}
+
+
+.panel-eyebrow {
+
+    color:
+        var(--silver-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 5px;
+}
+
+
+.panel-header h4 {
+
+    color:
+        var(--royal-blue);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 25px;
+
+    margin: 0;
+
+    font-weight: 600;
+}
+
+
+.panel-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--royal-blue);
+
+    color:
+        var(--silver-light);
+}
+
+
+.warning-icon {
+
+    background:
+        #f1f3f7;
+
+    color:
+        var(--royal-blue);
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.dashboard-table {
+
+    margin: 0;
+}
+
+
+.dashboard-table thead th {
+
+    padding:
+        15px 25px;
+
+    color:
+        #7c8492;
+
+    background:
+        #fafbfc;
+
+    border-bottom:
+        1px solid var(--border);
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-weight: 600;
+}
+
+
+.dashboard-table tbody td {
+
+    padding:
+        17px 25px;
+
+    border-bottom:
+        1px solid #edf0f4;
+
+    color:
+        var(--ink);
+}
+
+
+.dashboard-table tbody tr:last-child td {
+
+    border-bottom: none;
+}
+
+
+.dashboard-table tbody tr {
+
+    transition:
+        background .2s ease;
+}
+
+
+.dashboard-table tbody tr:hover {
+
+    background:
+        #fafbfd;
+}
+
+
+/* =========================================
+   ORDER INFO
+========================================= */
+
+.order-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.order-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        #f1f3f7;
+
+    color:
+        var(--royal-blue);
+}
+
+
+.order-info strong {
+
+    display: block;
+
+    color:
+        var(--royal-blue-dark);
+
+    font-size: 13px;
+}
+
+
+.order-info small {
+
+    display: block;
+
+    color:
+        var(--muted);
+
+    font-size: 10px;
+
+    margin-top: 2px;
+}
+
+
+.order-total {
+
+    color:
+        var(--royal-blue);
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding:
+        6px 10px;
+
+    background:
+        #f1f3f7;
+
+    color:
+        var(--royal-blue);
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+
+    font-weight: 600;
+}
+
+
+.status-dot {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        var(--silver-dark);
+}
+
+
+/* =========================================
+   LOW STOCK
+========================================= */
+
+.stock-list {
+
+    padding:
+        8px 25px 20px;
+}
+
+
+.stock-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        15px 0;
+
+    border-bottom:
+        1px solid #edf0f4;
+}
+
+
+.stock-item:last-child {
+
+    border-bottom: none;
+}
+
+
+.stock-product {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+}
+
+
+.product-mini-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        #f1f3f7;
+
+    color:
+        var(--royal-blue);
+}
+
+
+.stock-product strong {
+
+    display: block;
+
+    max-width: 180px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    color:
+        var(--royal-blue-dark);
+
+    font-size: 12px;
+}
+
+
+.stock-product small {
+
+    display: block;
+
+    color:
+        var(--muted);
+
+    font-size: 9px;
+
+    margin-top: 2px;
+}
+
+
+.stock-number {
+
+    text-align: right;
+}
+
+
+.stock-number span {
+
+    display: block;
+
+    color:
+        var(--royal-blue);
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+.stock-number small {
+
+    color:
+        var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   HEALTHY STOCK
+========================================= */
+
+.healthy-stock {
+
+    text-align: center;
+
+    padding:
+        35px 15px;
+}
+
+
+.healthy-icon {
+
+    width: 55px;
+
+    height: 55px;
+
+    margin:
+        0 auto 12px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        #f1f3f7;
+
+    color:
+        var(--royal-blue);
+
+    font-size: 22px;
+}
+
+
+.healthy-stock h5 {
+
+    color:
+        var(--royal-blue);
+
+    font-size: 16px;
+
+    margin-bottom: 5px;
+}
+
+
+.healthy-stock p {
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    margin: 0;
+}
+
+
+/* =========================================
+   EMPTY ORDERS
+========================================= */
+
+.empty-orders {
+
+    padding:
+        40px !important;
+
+    color:
+        var(--muted);
+}
+
+
+.empty-orders i {
+
+    font-size: 30px;
+
+    color:
+        var(--silver-dark);
+}
+
+
+.empty-orders p {
+
+    margin:
+        8px 0 0;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   QUICK ACCESS
+========================================= */
+
+.quick-section {
+
+    padding-bottom: 30px;
+}
+
+
+.quick-title {
+
+    color:
+        var(--royal-blue);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 27px;
+
+    font-weight: 600;
+}
+
+
+.quick-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 86px;
+
+    padding: 20px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid var(--border);
+
+    text-decoration: none;
+
+    position: relative;
+
+    transition:
+        all .25s ease;
+}
+
+
+.quick-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        var(--royal-blue-light);
+
+    box-shadow:
+        0 12px 30px
+        rgba(6, 19, 47, .09);
+}
+
+
+.quick-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--royal-blue);
+
+    color:
+        var(--silver-light);
+
+    font-size: 18px;
+}
+
+
+.quick-card h5 {
+
+    color:
+        var(--royal-blue-dark);
+
+    font-size: 14px;
+
+    margin:
+        0 0 3px;
+}
+
+
+.quick-card p {
+
+    color:
+        var(--muted);
+
+    font-size: 10px;
+
+    margin: 0;
+}
+
+
+.quick-arrow {
+
+    margin-left: auto;
+
+    color:
+        var(--silver-dark);
+
+    transition:
+        transform .2s ease;
+}
+
+
+.quick-card:hover .quick-arrow {
+
+    transform:
+        translateX(4px);
+
+    color:
+        var(--royal-blue);
+}
+
+
+/* =========================================
+   LIVE SALES CARD
+========================================= */
+
+.live-sales-card {
+
+    overflow: hidden;
+}
+
+
+.live-sales-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    width: 3px;
+
+    height: 100%;
+
+    background:
+        var(--silver);
+}
+
+
+.live-icon {
+
+    position: relative;
+}
+
+
+.live-indicator {
+
+    position: absolute;
+
+    right: 42px;
+
+    top: 10px;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    font-weight: 700;
+
+    color:
+        #4d8b64;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+
+.live-indicator span {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        #4d8b64;
+
+    animation:
+        livePulse 1.5s infinite;
+}
+
+
+@keyframes livePulse {
+
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: .35;
+        transform: scale(.75);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 992px) {
+
+    .dashboard-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .dashboard-title {
+
+        font-size: 42px;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .dashboard-page
+    .container-fluid {
+
+        padding-left:
+            15px !important;
+
+        padding-right:
+            15px !important;
+    }
+
+
+    .dashboard-title {
+
+        font-size: 36px;
+    }
+
+
+    .dashboard-subtitle {
+
+        font-size: 12px;
+    }
+
+
+    .dashboard-btn {
+
+        width: 100%;
+    }
+
+
+    .dashboard-actions {
+
+        width: 100%;
+    }
+
+
+    .panel-header {
+
+        padding: 20px;
+    }
+
+
+    .dashboard-table thead th,
+    .dashboard-table tbody td {
+
+        padding-left:
+            15px;
+
+        padding-right:
+            15px;
+    }
+
+
+    .live-indicator {
+
+        display: none;
+    }
+
+}
+
+</style>
+
+{% endblock %}
