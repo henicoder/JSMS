@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Silver Price Intelligence{% endblock %}
+
+{% block content %}
+
+<div class="metal-intelligence-page">
+
+    <div class="metal-hero">
+
+        <span>MARKET INTELLIGENCE</span>
+
+        <h1>Silver Prices</h1>
+
+        <p>
+            Monitor configured reference rates and understand
+            how silver_925 prices influence jewellery valuation.
+        </p>
+
+    </div>
+
+
+    <!-- Rate Cards -->
+
+    <div class="metal_price-grid">
+
+        <div class="metal_price-card">
+
+            <div class="metal-icon">Ag</div>
+
+            <div class="metal-label">
+                SILVER · 925
+            </div>
+
+            <div class="metal-rate">
+
+                ₹{{ "{:,.2f}".format(prices.silver_925) }}
+        </div>
+
+            <p>
+                Reference rate
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Information -->
+
+    <div class="metal-info-grid">
+
+        <div class="metal-info-card">
+
+            <span>HOW IT WORKS</span>
+
+            <h2>Silver Value Intelligence</h2>
+
+            <p>
+                Jewellery valuation can be influenced by the
+                metal type, purity and weight of each product.
+                The system uses these attributes to estimate
+                the underlying metal value.
+            </p>
+
+        </div>
+
+
+        <div class="metal-info-card">
+
+            <span>RATE STATUS</span>
+
+            <h2>Configured Reference Data</h2>
+
+            <p>
+                Last configured:
+                <strong>{{ prices.updated_at }}</strong>
+            </p>
+
+            <p class="rate-source">
+                Source: {{ prices.source }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Product Metal Analysis -->
+
+    <div class="metal-products-section">
+
+        <div class="section-heading">
+
+            <span>CATALOG INTELLIGENCE</span>
+
+            <h2>Silver Composition Across Products</h2>
+
+        </div>
+
+
+        <div class="metal-table-wrapper">
+
+            <table class="metal-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product</th>
+                        <th>Metal</th>
+                        <th>Purity</th>
+                        <th>Weight</th>
+                        <th>Product Price</th>
+                        <th>Estimated Metal Value</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for product in products %}
+
+                    <tr>
+
+                        <td>
+                            {{ product.name }}
+                        </td>
+
+                        <td>
+                            {{ product.metal_type or "—" }}
+                        </td>
+
+                        <td>
+                            {{ product.purity or "—" }}
+                        </td>
+
+                        <td>
+                            {{ product.weight or 0 }} g
+                        </td>
+
+                        <td>
+                            ₹{{ "{:,.2f}".format(product.price) }}
+                        </td>
+
+                        <td>
+
+                            {% if product.metal_value is not none %}
+
+                                ₹{{ "{:,.2f}".format(product.metal_value) }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="6">
+                            No products available.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

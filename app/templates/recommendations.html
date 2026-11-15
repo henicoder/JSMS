@@ -1,0 +1,435 @@
+{% extends "base.html" %}
+
+{% block title %}Find Jewellery For Me | Jewellery Shop{% endblock %}
+
+{% block content %}
+
+<div class="recommendation-page">
+
+    <!-- HERO -->
+    <div class="recommendation-hero">
+
+        <span class="eyebrow">SMART JEWELLERY DISCOVERY</span>
+
+        <h1>Find Jewellery For Me</h1>
+
+        <p>
+            Tell us what you're looking for and our intelligent
+            recommendation engine will find the best matching
+            jewellery from our collection.
+        </p>
+
+    </div>
+
+
+    <!-- RECOMMENDATION FORM -->
+    <div class="recommendation-card">
+
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <div class="form-grid">
+
+                <!-- OCCASION -->
+                <div class="form-group">
+
+                    <label>Occasion</label>
+
+                    <select name="occasion">
+
+                        <option value="">Any Occasion</option>
+
+                        <option value="Wedding">
+                            Wedding
+                        </option>
+
+                        <option value="Daily">
+                            Daily Wear
+                        </option>
+
+                        <option value="Office">
+                            Office
+                        </option>
+
+                        <option value="Festival">
+                            Festival
+                        </option>
+
+                        <option value="Gift">
+                            Gift
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- JEWELLERY TYPE -->
+                <div class="form-group">
+
+                    <label>Jewellery Type</label>
+
+                    <select name="jewellery_type">
+
+                        <option value="">Any Type</option>
+
+                        <option value="Earrings">
+                            Earrings
+                        </option>
+
+                        <option value="Ring">
+                            Ring
+                        </option>
+
+                        <option value="Bracelet">
+                            Bracelet
+                        </option>
+
+                        <option value="Bangle">
+                            Bangle
+                        </option>
+
+                        <option value="Pendant">
+                            Pendant
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BUDGET -->
+                <div class="form-group">
+
+                    <label>Budget</label>
+
+                    <input
+                        type="number"
+                        name="budget"
+                        placeholder="Maximum budget (₹)"
+                        min="1"
+                    >
+
+                </div>
+
+
+                <!-- METAL -->
+                <div class="form-group">
+
+                    <label>Metal</label>
+
+                    <select name="metal">
+
+                        <option value="">Any Metal</option>
+
+                        <option value="Silver">
+                            Silver
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PURITY -->
+                <div class="form-group">
+
+                    <label>Purity</label>
+
+                    <select name="purity">
+
+                        <option value="">Any Purity</option>
+
+                        <option value="925">
+                            Shree Vagheswari Jewellers
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- STYLE -->
+                <div class="form-group">
+
+                    <label>Style</label>
+
+                    <select name="style">
+
+                        <option value="">Any Style</option>
+
+                        <option value="Modern">
+                            Modern
+                        </option>
+
+                        <option value="Minimal">
+                            Minimal
+                        </option>
+
+                        <option value="Elegant">
+                            Elegant
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- FIND BUTTON -->
+            <button
+                type="submit"
+                class="recommend-button"
+            >
+                Find My Jewellery
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- RESULTS -->
+    {% if submitted %}
+
+        <div class="results-heading">
+
+            <span>AI-POWERED MATCHING</span>
+
+            <h2>
+                Recommended For You
+            </h2>
+
+            <p>
+                Based on your preferences, we found these
+                matching pieces from our collection.
+            </p>
+
+        </div>
+
+
+        {% if recommendations %}
+
+            <div class="recommendation-grid">
+
+                {% for item in recommendations %}
+
+                    {% set product = item.product %}
+
+
+                    <!-- IMAGE FALLBACK MAP -->
+                    {% set image_map = {
+                        'RNG001': 'chain3.jpeg',
+                        'RNG002': 'chain2.jpeg',
+                        'EAR001': 'chain1.jpeg',
+                        'EAR002': 'chain.webp',
+                        'BRC001': 'bracelet2.webp',
+                        'BRC002': 'bracelet1.jpeg',
+                        'CHN001': 'bracelet3.jpeg',
+                        'CHN002': 'bracelet4.webp',
+                        'PND001': 'braclet.webp',
+                        'PEN002': 'pendant.jpg'
+                    } %}
+
+
+                    {% set image_file = product.image or image_map.get(product.sku) %}
+
+
+                    <div class="recommendation-product">
+
+
+                        <!-- PRODUCT IMAGE -->
+                        <div class="recommendation-image">
+
+                            <!-- Clicking image opens product details -->
+                            <a
+                                href="{{ url_for(
+                                    'products.detail',
+                                    product_id=product.id
+                                ) }}"
+                                class="recommendation-image-link"
+                            >
+
+                                {% if image_file %}
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename='uploads/products/' ~ image_file
+                                        ) }}"
+                                        alt="{{ product.name }}"
+                                        loading="lazy"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                    >
+
+                                    <!-- Fallback if image file fails -->
+                                    <div
+                                        class="no-image"
+                                        style="display:none;"
+                                    >
+                                        <i class="bi bi-gem"></i>
+                                        <span>Jewellery</span>
+                                    </div>
+
+                                {% else %}
+
+                                    <div class="no-image">
+
+                                        <i class="bi bi-gem"></i>
+
+                                        <span>
+                                            Jewellery
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </a>
+
+
+                            <!-- MATCH SCORE -->
+                            <div class="match-score">
+
+                                {{ item.score }}% Match
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRODUCT INFORMATION -->
+                        <div class="recommendation-info">
+
+                            <span class="product-metal">
+
+                                {{ product.metal_type or "Jewellery" }}
+
+                                {% if product.purity %}
+
+                                    · {{ product.purity }}
+
+                                {% endif %}
+
+                            </span>
+
+
+                            <h3>
+
+                                {{ product.name }}
+
+                            </h3>
+
+
+                            <!-- PRICE -->
+                            {% set base_price = product.price|float %}
+
+                            {% set discount_percent = product.discount_percent|default(0, true)|float %}
+
+                            {% set discount_amount = base_price * (discount_percent / 100) %}
+
+                            {% set discounted_price = base_price - discount_amount %}
+
+
+                            {% if discount_percent > 0 %}
+
+                                <div class="recommendation-price">
+
+                                    <span
+                                        style="
+                                            text-decoration: line-through;
+                                            color: #888;
+                                            margin-right: 8px;
+                                        "
+                                    >
+                                        ₹{{ "{:,.2f}".format(base_price) }}
+                                    </span>
+
+                                    <strong>
+                                        ₹{{ "{:,.2f}".format(discounted_price) }}
+                                    </strong>
+
+                                </div>
+
+                            {% else %}
+
+                                <p class="product-price">
+
+                                    ₹{{ "{:,.2f}".format(base_price) }}
+
+                                </p>
+
+                            {% endif %}
+
+
+                            <!-- MATCH REASONS -->
+                            {% if item.reasons %}
+
+                                <div class="match-reasons">
+
+                                    {% for reason in item.reasons %}
+
+                                        <span>
+                                            ✓ {{ reason }}
+                                        </span>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- VIEW PRODUCT DETAILS -->
+                            <a
+                                href="{{ url_for(
+                                    'products.detail',
+                                    product_id=product.id
+                                ) }}"
+                                class="view-product"
+                            >
+
+                                View Jewellery
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <!-- NO RESULTS -->
+            <div class="no-results">
+
+                <h3>
+                    We couldn't find a strong match.
+                </h3>
+
+                <p>
+                    Try increasing your budget or selecting
+                    fewer preferences.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

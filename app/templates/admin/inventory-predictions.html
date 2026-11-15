@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Inventory Predictions{% endblock %}
+
+{% block content %}
+
+<div class="inventory-prediction-page">
+
+    <!-- HEADER -->
+
+    <div class="inventory-prediction-hero">
+
+        <span>SMART INVENTORY INTELLIGENCE</span>
+
+        <h1>Inventory Predictions</h1>
+
+        <p>
+            Predict stockout risk using historical inventory
+            movement and recommend when products should be reordered.
+        </p>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    {% set critical_count = predictions
+        |selectattr("risk", "equalto", "CRITICAL")
+        |list
+        |length
+    %}
+
+    {% set high_count = predictions
+        |selectattr("risk", "equalto", "HIGH")
+        |list
+        |length
+    %}
+
+    {% set medium_count = predictions
+        |selectattr("risk", "equalto", "MEDIUM")
+        |list
+        |length
+    %}
+
+
+    <div class="prediction-summary">
+
+        <div class="prediction-stat">
+
+            <span>PRODUCTS ANALYZED</span>
+
+            <strong>
+                {{ predictions|length }}
+            </strong>
+
+        </div>
+
+
+        <div class="prediction-stat critical-stat">
+
+            <span>CRITICAL RISK</span>
+
+            <strong>
+                {{ critical_count }}
+            </strong>
+
+        </div>
+
+
+        <div class="prediction-stat high-stat">
+
+            <span>HIGH RISK</span>
+
+            <strong>
+                {{ high_count }}
+            </strong>
+
+        </div>
+
+
+        <div class="prediction-stat medium-stat">
+
+            <span>MEDIUM RISK</span>
+
+            <strong>
+                {{ medium_count }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="prediction-section">
+
+        <div class="prediction-section-header">
+
+            <div>
+
+                <span>DEMAND FORECAST</span>
+
+                <h2>Stockout Predictions</h2>
+
+            </div>
+
+            <div class="prediction-method">
+
+                Based on last 30 days
+
+            </div>
+
+        </div>
+
+
+        <div class="prediction-table-wrapper">
+
+            <table class="prediction-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product</th>
+
+                        <th>Current Stock</th>
+
+                        <th>30-Day Sales</th>
+
+                        <th>Daily Sales</th>
+
+                        <th>Stockout</th>
+
+                        <th>Risk</th>
+
+                        <th>Reorder</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in predictions %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ item.product.name }}
+                            </strong>
+
+                            <small>
+                                {{ item.product.sku }}
+                            </small>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ item.current_stock }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ item.total_sold }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ item.average_daily_sales }}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if item.stockout_days is not none %}
+
+                                {{ item.stockout_days }} days
+
+                            {% else %}
+
+                                No demand
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="risk-badge {{ item.risk|lower }}">
+
+                                {{ item.risk }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if item.recommended_reorder > 0 %}
+
+                                <strong>
+                                    +{{ item.recommended_reorder }}
+                                </strong>
+
+                            {% else %}
+
+                                <span class="no-reorder">
+                                    No reorder
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            No inventory data available.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- REORDER SUGGESTIONS -->
+
+    <div class="reorder-section">
+
+        <div class="prediction-section-header">
+
+            <div>
+
+                <span>ACTION REQUIRED</span>
+
+                <h2>Reorder Suggestions</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="reorder-grid">
+
+            {% for item in predictions
+                if item.recommended_reorder > 0
+            %}
+
+            <div class="reorder-card">
+
+                <div class="reorder-card-top">
+
+                    <div>
+
+                        <small>
+                            {{ item.product.sku }}
+                        </small>
+
+                        <h3>
+                            {{ item.product.name }}
+                        </h3>
+
+                    </div>
+
+
+                    <span class="risk-badge {{ item.risk|lower }}">
+
+                        {{ item.risk }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="reorder-metrics">
+
+                    <div>
+
+                        <span>Current Stock</span>
+
+                        <strong>
+                            {{ item.current_stock }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Daily Sales</span>
+
+                        <strong>
+                            {{ item.average_daily_sales }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Suggested Reorder</span>
+
+                        <strong>
+                            {{ item.recommended_reorder }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reorder-message">
+
+                    {% if item.stockout_days is not none %}
+
+                        Estimated stockout in
+                        <strong>
+                            {{ item.stockout_days }} days
+                        </strong>.
+
+                    {% else %}
+
+                        Stock level is below the
+                        recommended reorder point.
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="no-reorders">
+
+                <h3>
+                    Inventory looks healthy.
+                </h3>
+
+                <p>
+                    No immediate reorder recommendations
+                    were generated.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- EXPLANATION -->
+
+    <div class="prediction-explanation">
+
+        <span>HOW THE PREDICTION WORKS</span>
+
+        <h2>From Inventory Data to Action</h2>
+
+        <div class="prediction-flow">
+
+            <div>
+                <strong>01</strong>
+                <p>
+                    Historical OUT transactions are analyzed.
+                </p>
+            </div>
+
+            <div>
+                <strong>02</strong>
+                <p>
+                    Average daily sales are calculated.
+                </p>
+            </div>
+
+            <div>
+                <strong>03</strong>
+                <p>
+                    Expected stockout time is estimated.
+                </p>
+            </div>
+
+            <div>
+                <strong>04</strong>
+                <p>
+                    Reorder quantity is recommended.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

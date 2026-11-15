@@ -1,0 +1,1398 @@
+{% extends "base.html" %}
+
+{% block title %}Build Your Silver Jewellery{% endblock %}
+
+{% block content %}
+
+<div class="custom-builder">
+
+    <!-- =========================================
+         BUILDER HERO
+    ========================================== -->
+    <section class="builder-hero">
+
+        <div class="builder-eyebrow">
+            SILVER ATELIER · CUSTOM STUDIO
+        </div>
+
+        <h1>
+            Build Your<br>
+            <span>Signature Silver Piece</span>
+        </h1>
+
+        <p>
+            Design your own Shree Vagheswari Jewellers jewellery and receive
+            a price calculated using the silver reference rate
+            at the time of purchase.
+        </p>
+
+    </section>
+
+
+    <!-- =========================================
+         BUILDER LAYOUT
+    ========================================== -->
+    <div class="builder-layout">
+
+        <!-- =====================================
+             LEFT SIDE
+        ====================================== -->
+        <section class="builder-card">
+
+            <div class="card-heading">
+
+                <span>01</span>
+
+                <div>
+                    <h2>Choose your jewellery</h2>
+                    <p>Select the foundation of your design.</p>
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 JEWELLERY TYPE
+            ================================== -->
+            <div class="option-grid">
+
+                <label class="option-card">
+                    <input
+                        type="radio"
+                        name="jewellery_type"
+                        value="Ring"
+                        checked
+                    >
+                    <span>Ring</span>
+                </label>
+
+                <label class="option-card">
+                    <input
+                        type="radio"
+                        name="jewellery_type"
+                        value="Bracelet"
+                    >
+                    <span>Bracelet</span>
+                </label>
+
+                <label class="option-card">
+                    <input
+                        type="radio"
+                        name="jewellery_type"
+                        value="Pendant"
+                    >
+                    <span>Pendant</span>
+                </label>
+
+                <label class="option-card">
+                    <input
+                        type="radio"
+                        name="jewellery_type"
+                        value="Earrings"
+                    >
+                    <span>Earrings</span>
+                </label>
+
+                <label class="option-card">
+                    <input
+                        type="radio"
+                        name="jewellery_type"
+                        value="Chain"
+                    >
+                    <span>Chain</span>
+                </label>
+
+            </div>
+
+
+            <!-- =================================
+                 DESIGN STYLE
+            ================================== -->
+            <div class="form-section">
+
+                <label>Design Style</label>
+
+                <select id="designStyle">
+
+                    <option value="Minimal">
+                        Minimal
+                    </option>
+
+                    <option value="Classic">
+                        Classic
+                    </option>
+
+                    <option value="Premium">
+                        Premium
+                    </option>
+
+                    <option value="Statement">
+                        Statement
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================
+                 WEIGHT + SIZE
+            ================================== -->
+            <div class="form-row">
+
+                <div class="form-section">
+
+                    <label>
+                        Estimated Weight (grams)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weight"
+                        min="0.1"
+                        step="0.1"
+                        value="5"
+                    >
+
+                </div>
+
+
+                <div class="form-section">
+
+                    <label>
+                        Size / Length
+                    </label>
+
+                    <input
+                        type="text"
+                        id="size"
+                        placeholder="e.g. Ring 12"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 FINISH
+            ================================== -->
+            <div class="form-section">
+
+                <label>Finish</label>
+
+                <select id="finish">
+
+                    <option value="Polished">
+                        Polished
+                    </option>
+
+                    <option value="Matte">
+                        Matte
+                    </option>
+
+                    <option value="Oxidised">
+                        Oxidised
+                    </option>
+
+                    <option value="Hammered">
+                        Hammered
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================
+                 ENGRAVING
+            ================================== -->
+            <div class="form-section">
+
+                <label>Engraving</label>
+
+                <input
+                    type="text"
+                    id="engraving"
+                    maxlength="100"
+                    placeholder="Optional initials or message"
+                >
+
+                <small class="field-note">
+                    Engraving charge: ₹200
+                </small>
+
+            </div>
+
+
+            <!-- =================================
+                 DESIGN PHOTO
+            ================================== -->
+            <div class="form-section">
+
+                <label>Your Design Reference</label>
+
+                <p class="upload-help">
+                    Upload a photo of the jewellery design you want.
+                </p>
+
+                <div class="photo-upload-buttons">
+
+                    <label class="upload-button">
+
+                        Choose from Album
+
+                        <input
+                            type="file"
+                            id="albumInput"
+                            accept="image/*"
+                            hidden
+                        >
+
+                    </label>
+
+                </div>
+
+
+                <!-- IMAGE PREVIEW -->
+                <div
+                    id="imagePreviewContainer"
+                    class="image-preview-container"
+                    style="display: none;"
+                >
+
+                    <img
+                        id="imagePreview"
+                        src=""
+                        alt="Design preview"
+                    >
+
+                    <button
+                        type="button"
+                        id="removeImage"
+                    >
+                        Remove Photo
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 AUTOMATIC PRICING DISPLAY
+            ================================== -->
+            <div class="form-row">
+
+                <div class="form-section">
+
+                    <label>
+                        Making Charges
+                    </label>
+
+                    <input
+                        type="text"
+                        id="makingChargeDisplay"
+                        value="₹500"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-section">
+
+                    <label>
+                        Customization Charges
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customizationChargeDisplay"
+                        value="₹0"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             RIGHT SIDE
+        ====================================== -->
+        <aside class="price-card">
+
+            <div class="preview-symbol">
+                Ag
+            </div>
+
+
+            <span class="price-label">
+                YOUR CREATION
+            </span>
+
+
+            <h2 id="previewType">
+                Silver Ring
+            </h2>
+
+
+            <div class="purity">
+                925 STERLING SILVER
+            </div>
+
+
+            <!-- =================================
+                 SILVER RATE
+            ================================== -->
+            <div class="rate-box">
+
+                <span>
+                    Current reference rate
+                </span>
+
+                <strong>
+                    ₹<span id="silverRate">0.00</span>/g
+                </strong>
+
+            </div>
+
+
+            <!-- =================================
+                 PRICE BREAKDOWN
+            ================================== -->
+            <div class="price-breakdown">
+
+                <div>
+
+                    <span>
+                        Silver value
+                    </span>
+
+                    <strong>
+                        ₹<span id="silverValue">0.00</span>
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Making charges
+                    </span>
+
+                    <strong>
+                        ₹<span id="makingValue">0.00</span>
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Customization
+                    </span>
+
+                    <strong>
+                        ₹<span id="customizationValue">0.00</span>
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        GST · 3%
+                    </span>
+
+                    <strong>
+                        ₹<span id="gstValue">0.00</span>
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 TOTAL
+            ================================== -->
+            <div class="total-row">
+
+                <span>
+                    Estimated Total
+                </span>
+
+                <strong>
+                    ₹<span id="totalValue">0.00</span>
+                </strong>
+
+            </div>
+
+
+            <p class="purchase-note">
+
+                The final silver value will be recalculated
+                using the configured silver reference rate
+                when you place the order.
+
+            </p>
+
+
+            <!-- =================================
+                 ORDER FORM
+            ================================== -->
+            <form
+                method="POST"
+                action="{{ url_for('main.create_custom_jewellery_order') }}"
+                id="customOrderForm"
+                enctype="multipart/form-data"
+            >
+
+                <!-- CSRF -->
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
+
+
+                <!-- JEWELLERY TYPE -->
+                <input
+                    type="hidden"
+                    name="jewellery_type"
+                    id="formJewelleryType"
+                    value="Ring"
+                >
+
+
+                <!-- DESIGN STYLE -->
+                <input
+                    type="hidden"
+                    name="design_style"
+                    id="formDesignStyle"
+                    value="Minimal"
+                >
+
+
+                <!-- WEIGHT -->
+                <input
+                    type="hidden"
+                    name="weight"
+                    id="formWeight"
+                >
+
+
+                <!-- SIZE -->
+                <input
+                    type="hidden"
+                    name="size"
+                    id="formSize"
+                >
+
+
+                <!-- FINISH -->
+                <input
+                    type="hidden"
+                    name="finish"
+                    id="formFinish"
+                >
+
+
+                <!-- ENGRAVING -->
+                <input
+                    type="hidden"
+                    name="engraving"
+                    id="formEngraving"
+                >
+
+
+                <!-- MAKING CHARGE -->
+                <input
+                    type="hidden"
+                    name="making_charge"
+                    id="formMakingCharge"
+                    value="500"
+                >
+
+
+                <!-- CUSTOMIZATION CHARGE -->
+                <input
+                    type="hidden"
+                    name="customization_charge"
+                    id="formCustomizationCharge"
+                    value="0"
+                >
+
+
+                <!-- ENGRAVING CHARGE -->
+                <input
+                    type="hidden"
+                    name="engraving_charge"
+                    id="formEngravingCharge"
+                    value="0"
+                >
+
+
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    class="create-button"
+                    id="createOrderButton"
+                >
+                    Create & Place Order
+                </button>
+
+            </form>
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =========================================
+       ELEMENTS
+    ========================================== */
+
+    const weightInput =
+        document.getElementById("weight");
+
+    const makingDisplay =
+        document.getElementById("makingChargeDisplay");
+
+    const customizationDisplay =
+        document.getElementById(
+            "customizationChargeDisplay"
+        );
+
+    const typeInputs =
+        document.querySelectorAll(
+            'input[name="jewellery_type"]'
+        );
+
+    const designStyle =
+        document.getElementById("designStyle");
+
+    const sizeInput =
+        document.getElementById("size");
+
+    const finishInput =
+        document.getElementById("finish");
+
+    const engravingInput =
+        document.getElementById("engraving");
+
+    const albumInput =
+        document.getElementById("albumInput");
+
+
+    /* =========================================
+       HIDDEN FORM ELEMENTS
+    ========================================== */
+
+    const formJewelleryType =
+        document.getElementById(
+            "formJewelleryType"
+        );
+
+    const formDesignStyle =
+        document.getElementById(
+            "formDesignStyle"
+        );
+
+    const formWeight =
+        document.getElementById(
+            "formWeight"
+        );
+
+    const formSize =
+        document.getElementById(
+            "formSize"
+        );
+
+    const formFinish =
+        document.getElementById(
+            "formFinish"
+        );
+
+    const formEngraving =
+        document.getElementById(
+            "formEngraving"
+        );
+
+    const formMakingCharge =
+        document.getElementById(
+            "formMakingCharge"
+        );
+
+    const formCustomizationCharge =
+        document.getElementById(
+            "formCustomizationCharge"
+        );
+
+    const formEngravingCharge =
+        document.getElementById(
+            "formEngravingCharge"
+        );
+
+
+    /* =========================================
+       CSRF TOKEN
+    ========================================== */
+
+    const csrfInput =
+        document.querySelector(
+            '#customOrderForm input[name="csrf_token"]'
+        );
+
+    const csrfToken =
+        csrfInput
+            ? csrfInput.value
+            : "";
+
+
+    /* =========================================
+       AUTOMATIC MAKING CHARGES
+    ========================================== */
+
+    const makingCharges = {
+    Ring: 250,
+    Bracelet: 400,
+    Pendant: 200,
+    Earrings: 250,
+    Chain: 350
+};
+
+
+    /* =========================================
+       DESIGN CUSTOMIZATION CHARGES
+    ========================================== */
+
+    const customizationCharges = {
+
+        Minimal: 0,
+
+        Classic: 250,
+
+        Premium: 500,
+
+        Statement: 800
+
+    };
+
+
+    /* =========================================
+       ENGRAVING CHARGE
+    ========================================== */
+
+    const engravingCharge = 200;
+
+
+    /* =========================================
+       GET SELECTED JEWELLERY
+    ========================================== */
+
+    function getSelectedJewelleryType() {
+
+        const selected =
+            document.querySelector(
+                'input[name="jewellery_type"]:checked'
+            );
+
+        return selected
+            ? selected.value
+            : "Ring";
+    }
+
+
+    /* =========================================
+       GET MAKING CHARGE
+    ========================================== */
+
+    function getMakingCharge() {
+
+        const type =
+            getSelectedJewelleryType();
+
+        return makingCharges[type] || 0;
+    }
+
+
+    /* =========================================
+       GET CUSTOMIZATION CHARGE
+    ========================================== */
+
+    function getCustomizationCharge() {
+
+        const style =
+            designStyle.value;
+
+        const designCharge =
+            customizationCharges[style] || 0;
+
+        const hasEngraving =
+            engravingInput.value.trim().length > 0;
+
+        const engraving =
+            hasEngraving
+                ? engravingCharge
+                : 0;
+
+        return designCharge + engraving;
+    }
+
+
+    /* =========================================
+       FORMAT CURRENCY
+    ========================================== */
+
+    function formatCurrency(value) {
+
+        return Number(value || 0)
+            .toFixed(2);
+
+    }
+
+
+    /* =========================================
+       UPDATE AUTOMATIC CHARGES
+    ========================================== */
+
+    function updateAutomaticCharges() {
+
+        const making =
+            getMakingCharge();
+
+        const customization =
+            getCustomizationCharge();
+
+
+        /* Display */
+
+        makingDisplay.value =
+            "₹" + making;
+
+        customizationDisplay.value =
+            "₹" + customization;
+
+
+        /* Hidden form values */
+
+        formMakingCharge.value =
+            making;
+
+        formCustomizationCharge.value =
+            customization;
+
+
+        /* Separate engraving charge */
+
+        if (
+            engravingInput.value
+                .trim()
+                .length > 0
+        ) {
+
+            formEngravingCharge.value =
+                engravingCharge;
+
+        } else {
+
+            formEngravingCharge.value =
+                0;
+
+        }
+
+    }
+
+
+    /* =========================================
+       UPDATE FORM
+    ========================================== */
+
+    function updateForm() {
+
+        const selected =
+            document.querySelector(
+                'input[name="jewellery_type"]:checked'
+            );
+
+        if (!selected) {
+            return;
+        }
+
+
+        const selectedType =
+            selected.value;
+
+
+        /* Preview title */
+
+        document.getElementById(
+            "previewType"
+        ).textContent =
+            "Silver " + selectedType;
+
+
+        /* Hidden fields */
+
+        formJewelleryType.value =
+            selectedType;
+
+        formDesignStyle.value =
+            designStyle.value;
+
+        formWeight.value =
+            weightInput.value;
+
+        formSize.value =
+            sizeInput.value;
+
+        formFinish.value =
+            finishInput.value;
+
+        formEngraving.value =
+            engravingInput.value;
+
+
+        /* Automatic charges */
+
+        updateAutomaticCharges();
+
+    }
+
+
+    /* =========================================
+       CALCULATE PRICE
+    ========================================== */
+
+    async function calculatePrice() {
+
+        const weight =
+            parseFloat(weightInput.value) || 0;
+
+        const making =
+            getMakingCharge();
+
+        const customization =
+            getCustomizationCharge();
+
+
+        if (weight <= 0) {
+
+            document.getElementById(
+                "silverValue"
+            ).textContent = "0.00";
+
+            document.getElementById(
+                "makingValue"
+            ).textContent = "0.00";
+
+            document.getElementById(
+                "customizationValue"
+            ).textContent = "0.00";
+
+            document.getElementById(
+                "gstValue"
+            ).textContent = "0.00";
+
+            document.getElementById(
+                "totalValue"
+            ).textContent = "0.00";
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "{{ url_for('main.calculate_custom_jewellery_api') }}",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "X-CSRFToken":
+                                csrfToken
+                        },
+
+                        body: JSON.stringify({
+
+                            weight: weight,
+
+                            making_charge:
+                                making,
+
+                            customization_charge:
+                                customization
+
+                        })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server returned " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                console.error(
+                    "Calculation failed:",
+                    data.error
+                );
+
+                return;
+
+            }
+
+
+            /* =================================
+               SILVER RATE
+            ================================== */
+
+            let silverRate =
+                Number(
+                    data.silver_rate
+                ) || 0;
+
+
+            /*
+             * Temporary fallback.
+             *
+             * Your configured Shree Vagheswari Jewellers
+             * reference rate is ₹215/g.
+             *
+             * Backend should eventually
+             * return this value directly.
+             */
+
+            if (silverRate <= 0) {
+
+                silverRate = 215;
+
+            }
+
+
+            /* =================================
+               VALUES
+            ================================== */
+
+            const silverValue =
+                Number(
+                    data.silver_value
+                ) || (
+                    weight * silverRate
+                );
+
+
+            const makingValue =
+                Number(
+                    data.making_charge
+                ) || making;
+
+
+            const customizationValue =
+                Number(
+                    data.customization_charge
+                ) || customization;
+
+
+            let gst =
+                Number(data.gst) || 0;
+
+
+            let finalAmount =
+                Number(data.final_amount) || 0;
+
+
+            /*
+             * If backend does not return
+             * the calculated values correctly,
+             * calculate them here.
+             */
+
+            if (gst <= 0) {
+
+                const subtotal =
+                    silverValue +
+                    makingValue +
+                    customizationValue;
+
+                gst =
+                    subtotal * 0.03;
+
+            }
+
+
+            if (finalAmount <= 0) {
+
+                finalAmount =
+                    silverValue +
+                    makingValue +
+                    customizationValue +
+                    gst;
+
+            }
+
+
+            /* =================================
+               UPDATE UI
+            ================================== */
+
+            document.getElementById(
+                "silverRate"
+            ).textContent =
+                formatCurrency(
+                    silverRate
+                );
+
+
+            document.getElementById(
+                "silverValue"
+            ).textContent =
+                formatCurrency(
+                    silverValue
+                );
+
+
+            document.getElementById(
+                "makingValue"
+            ).textContent =
+                formatCurrency(
+                    makingValue
+                );
+
+
+            document.getElementById(
+                "customizationValue"
+            ).textContent =
+                formatCurrency(
+                    customizationValue
+                );
+
+
+            document.getElementById(
+                "gstValue"
+            ).textContent =
+                formatCurrency(
+                    gst
+                );
+
+
+            document.getElementById(
+                "totalValue"
+            ).textContent =
+                formatCurrency(
+                    finalAmount
+                );
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Price calculation error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       JEWELLERY TYPE CHANGE
+    ========================================== */
+
+    typeInputs.forEach(function (input) {
+
+        input.addEventListener(
+            "change",
+            function () {
+
+                updateForm();
+
+                calculatePrice();
+
+            }
+        );
+
+    });
+
+
+    /* =========================================
+       DESIGN STYLE
+    ========================================== */
+
+    designStyle.addEventListener(
+        "change",
+        function () {
+
+            updateForm();
+
+            calculatePrice();
+
+        }
+    );
+
+
+    /* =========================================
+       WEIGHT
+    ========================================== */
+
+    weightInput.addEventListener(
+        "input",
+        function () {
+
+            updateForm();
+
+            calculatePrice();
+
+        }
+    );
+
+
+    /* =========================================
+       SIZE
+    ========================================== */
+
+    sizeInput.addEventListener(
+        "input",
+        function () {
+
+            updateForm();
+
+        }
+    );
+
+
+    /* =========================================
+       FINISH
+    ========================================== */
+
+    finishInput.addEventListener(
+        "change",
+        function () {
+
+            updateForm();
+
+        }
+    );
+
+
+    /* =========================================
+       ENGRAVING
+    ========================================== */
+
+    engravingInput.addEventListener(
+        "input",
+        function () {
+
+            updateForm();
+
+            calculatePrice();
+
+        }
+    );
+
+
+    /* =========================================
+       OPTION CARD CLICK
+    ========================================== */
+
+    typeInputs.forEach(function (input) {
+
+        const card =
+            input.closest(".option-card");
+
+        if (card) {
+
+            card.addEventListener(
+                "click",
+                function () {
+
+                    input.checked = true;
+
+                    updateForm();
+
+                    calculatePrice();
+
+                }
+            );
+
+        }
+
+    });
+
+
+    /* =========================================
+       IMAGE UPLOAD PREVIEW
+    ========================================== */
+
+    if (albumInput) {
+
+        albumInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                if (
+                    !file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    alert(
+                        "Please select an image file."
+                    );
+
+                    return;
+
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        document.getElementById(
+                            "imagePreview"
+                        ).src =
+                            event.target.result;
+
+
+                        document.getElementById(
+                            "imagePreviewContainer"
+                        ).style.display =
+                            "block";
+
+                    };
+
+
+                reader.readAsDataURL(file);
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       REMOVE IMAGE
+    ========================================== */
+
+    const removeImage =
+        document.getElementById(
+            "removeImage"
+        );
+
+    if (removeImage) {
+
+        removeImage.addEventListener(
+            "click",
+            function () {
+
+                albumInput.value = "";
+
+                document.getElementById(
+                    "imagePreview"
+                ).src = "";
+
+                document.getElementById(
+                    "imagePreviewContainer"
+                ).style.display =
+                    "none";
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       FORM SUBMIT
+    ========================================== */
+
+    const customOrderForm =
+        document.getElementById(
+            "customOrderForm"
+        );
+
+
+    if (customOrderForm) {
+
+        customOrderForm.addEventListener(
+            "submit",
+            function () {
+
+                /*
+                 * Make absolutely sure all
+                 * values are synchronized before
+                 * submitting the order.
+                 */
+
+                updateForm();
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       INITIAL LOAD
+    ========================================== */
+
+    updateForm();
+
+    calculatePrice();
+
+});
+
+</script>
+
+{% endblock %}
